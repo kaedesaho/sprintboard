@@ -1,0 +1,82 @@
+.navbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    height: 60px;
+    border-bottom: solid 1px lightgray;
+}
+
+.navbar-logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: black;
+}
+
+.navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.navbar-signup {
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    border: solid 1px lightgrey;
+    border-radius: 8px;
+    cursor: pointer;
+    color: black;
+}  
+
+.navbar-login {
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    cursor: pointer;
+    color: black;
+}  
+
+.navbar-user {
+    position: relative;
+}
+
+.navbar-username {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 6px 10px;
+}
+
+.navbar-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-top: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar-dropdown a,
+.navbar-dropdown button {
+    font-family: inherit;
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: left;
+    color: black;
+}
+
+.navbar-dropdown a:hover,
+.navbar-dropdown button:hover {
+    background-color: #f0f0f0;
+}

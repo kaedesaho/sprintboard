@@ -1,0 +1,25 @@
+.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 60px);
+    box-sizing: border-box;
+    padding-bottom: 60px;
+}
+
+.home-title {
+    font-size: 3rem;
+    margin-bottom: 60px;
+    color: #000;
+}
+
+.get-started {
+    display: flex;
+    align-items: center;
+    padding: 10px 60px;
+    border: solid 1px lightgrey;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #000;
+}  

@@ -1,0 +1,64 @@
+.project-card {
+    display: flex;            
+    align-items: center;      
+    justify-content: space-between;
+    padding: 16px 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 16px;      
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.project-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.card-left {
+    flex-basis: 70%;
+}
+
+.card-left h2 {
+    font-size: 16px;
+    font-weight: 600; 
+    color: black;
+    text-align: left;
+    margin: 0 5px; 
+}
+
+.card-right {
+    flex-basis: 30%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 4px;                 
+}
+
+.project-role {
+    display: flex;
+    align-items: center;
+    flex-basis: 40%;
+    font-size: 14px;
+    margin: 0;
+    text-align: left;
+    color: #555;
+    gap: 6px;
+}
+
+.project-last-updated {
+    display: flex;
+    align-items: center;
+    flex-basis: 60%;
+    font-size: 14px;
+    margin: 0;
+    text-align: left;
+    color: #555;
+    gap: 6px;
+}
+
+.project-role .icon,
+.project-last-updated .icon {
+    font-size: 18px;
+    color: #555;
+}

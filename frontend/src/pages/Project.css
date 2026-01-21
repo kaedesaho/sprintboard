@@ -1,0 +1,152 @@
+.project {
+    max-width: 800px;        
+    margin: 80px auto;        
+    display: flex;
+    flex-direction: column;
+}
+
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.project-header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #222;
+    margin: 5px 0;
+}
+
+.project-header p {
+    font-size: 16px;
+    color: #555;
+    margin: 0;
+}
+
+.project-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.project-separator {
+    width: 100% ;
+    border: none;
+    border-top: 2px solid lightgray; 
+    margin-bottom: 40px;       
+}
+
+.create-task-btn  {
+    padding: 10px 40px;
+    background-color: #4A90E2;  
+    color: #fff;
+    font-weight: 600;
+    border-radius: 6px;
+}
+
+.create-task-btn:hover {
+    color: #fff;
+    background-color: #357ABD;   
+}
+
+.dashboard {
+    max-width: 800px;        
+    margin: 80px auto;        
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.dashboard-header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #222;
+    margin: 5px 0;
+}
+
+.dashboard-separator {
+    width: 100% ;
+    border: none;
+    border-top: 2px solid lightgray; 
+    margin-bottom: 40px;       
+}
+
+.create-project-btn  {
+    padding: 10px 16px;
+    background-color: #4A90E2;  
+    color: #fff;
+    font-weight: 600;
+    border-radius: 6px;
+}
+
+.create-project-btn:hover {
+    color: #fff;
+    background-color: #357ABD;   
+}
+
+.info-tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.info-icon {
+    font-size: 22px;
+    color: #555;
+    margin-top: 5px;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  width: 180px;
+  background-color: #333;
+  color: #fff;
+  text-align: left;
+  border-radius: 6px;
+  padding: 10px;
+  position: absolute;
+  z-index: 1;
+  top: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.info-tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.project-info {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #555;
+    margin: 0;
+    gap: 6px;
+}
+
+.project-info .icon,
+.info-btn .icon {
+    font-size: 22px;
+    color: #555;
+}
+
+.info-btn {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #555;
+    margin: 0;
+    gap: 6px;
+}
