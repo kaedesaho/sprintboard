@@ -3,5 +3,5 @@ export interface Project {
     title: string;
     description?: string;
     role: string;
-    lastUpdated: string;
+    last_updated: string;
 }

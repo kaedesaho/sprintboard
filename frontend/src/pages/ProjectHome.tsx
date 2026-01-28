@@ -1,11 +1,25 @@
 import { AiOutlineInfoCircle, AiOutlineEdit, AiOutlineClockCircle, AiOutlineTeam } from 'react-icons/ai';
-import { useLocation } from "react-router-dom";
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import { Project } from "../types/project"; 
 import "./Project.css";
 
-const Project = () => {
-    const location = useLocation();
-    const project = location.state?.project;
+const ProjectHome = () => {
+    const { id } = useParams();
+    const { userID } = useAuth();
+    const [project, setProject] = useState<Project | null>(null);
+
+    useEffect(() => {
+    if (!id || !userID) return;
+
+    fetch(`http://127.0.0.1:5000/api/projects/${id}?user_id=${userID}`)
+      .then(res => res.json())
+      .then(setProject)
+      .catch(console.error);
+  }, [id, userID]);
+
+  if (!project) return <p>Loading...</p>;
 
     return (
         <div className="project">
@@ -24,7 +38,7 @@ const Project = () => {
 
                     <p className='project-info'>
                         <AiOutlineClockCircle className="icon" />
-                        {project.lastUpdated}
+                        {new Date(project.last_updated).toLocaleDateString()}
                     </p>
 
                     {project.role === 'Admin' && (
@@ -34,7 +48,7 @@ const Project = () => {
                     )}
                 </div>
                 <div className='project-header-right'>
-                    <Link to="/create-task" className="create-task-btn">Create Task</Link>
+                    <Link to={`/task/create/${project.id}`} className="create-task-btn">Create Task</Link>
                 </div>
             </div>
 
@@ -44,4 +58,4 @@ const Project = () => {
     );
 };
 
-export default Project;
+export default ProjectHome;

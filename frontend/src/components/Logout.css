@@ -28,18 +28,18 @@
 }
 
 .modal-buttons button {
-    padding: 12px 40px;
+    padding: 10px 40px;
     border-radius: 6px;
     border: none;
     font-weight: 600;
     cursor: pointer;
 }
 
-.logout-confirm {
+.modal-confirm {
     background-color: #dc2626;
     color: #fff;
 }
 
-.logout-cancel {
+.modal-cancel {
     background-color: #f0f0f0;
 }

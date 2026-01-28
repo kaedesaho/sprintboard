@@ -24,3 +24,7 @@ dist-ssr
 *.sw?
 
 venv/
+.env
+schema.sql
+Postgres Local.session.sql
+__pycache__/

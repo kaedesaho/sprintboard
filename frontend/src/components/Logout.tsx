@@ -12,8 +12,8 @@ const LogoutModal = ({ onConfirm, onCancel }: LogoutModalProps) => {
                 <h2>Logout Account</h2>
                 <p>Are you sure you want to logout?</p>
                 <div className="modal-buttons">
-                    <button onClick={onCancel} className="logout-cancel">Cancel</button>
-                    <button onClick={onConfirm} className="logout-confirm">Logout</button>
+                    <button onClick={onCancel} className="modal-cancel">Cancel</button>
+                    <button onClick={onConfirm} className="modal-confirm">Logout</button>
                 </div>
             </div>
         </div>

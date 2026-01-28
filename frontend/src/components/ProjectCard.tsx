@@ -12,6 +12,10 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         <Link to={`/project/${project.id}`} state={{ project }} className="project-card">
             <div className='card-left'>
                 <h2>{project.title}</h2>
+            <div className="info-tooltip">
+                <AiOutlineInfoCircle className='info'/>
+                <span className="tooltip-text">{project.description}</span>
+            </div>
             </div>
             <div className='card-right'>    
                 <p className='project-role'>
@@ -20,7 +24,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
                 </p>
                 <p className='project-last-updated'>
                     <AiOutlineClockCircle className="icon" />
-                    {project.lastUpdated}
+                    {new Date(project.last_updated).toLocaleDateString()}
                 </p>
             </div>
         </Link>

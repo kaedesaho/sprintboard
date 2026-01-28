@@ -23,26 +23,23 @@ const Signup = () => {
         }
 
         try {
-            // const res = await fetch('http://localhost:5000/api/signup', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify({ username, email, password }),
-            // });
+            const res = await fetch('http://127.0.0.1:5000/api/users/signup', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ username, email, password }),
+            });
 
-            // const data = await res.json();
-
-            const data = { success: true };
+            const data = await res.json();
 
             if (data.success) {
                 setSuccess('Account created successfully! \nRedirecting to login...');
                 setTimeout(() => navigate('/login'), 4000);
             } else {
-                setError('Signup failed. Please try again.');
+                setError(data.error);
             }
         } catch (err) {
-            setError('An error occurred. Please try again.');
+            console.error("FETCH ERROR:", err);
+            setError('Server error !!');
         }
     };
             

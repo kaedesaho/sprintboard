@@ -6,9 +6,9 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Settings from './pages/Settings';
-import Project from './pages/Project';
+import ProjectHome from './pages/ProjectHome';
 import ProjectForm from './pages/ProjectForm';
-import CreateTask from './pages/CreateTask';
+import TaskPage from './pages/TaskPage';
 import './App.css'
 
 function App() {
@@ -22,10 +22,11 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path='/project/:id' element={<Project />} />
+          <Route path='/project/:id' element={<ProjectHome />} />
           <Route path='/create-project' element={<ProjectForm mode="create" />} />
           <Route path='/edit-project/:id' element={<ProjectForm mode="edit" />} />
-          <Route path='/create-task' element={<CreateTask />} />
+          <Route path='/task/create/:id' element={<TaskPage />} />
+          <Route path='/task/:id' element={<TaskPage />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

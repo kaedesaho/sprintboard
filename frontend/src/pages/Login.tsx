@@ -17,10 +17,16 @@ const Login = () => {
         setError('');
 
         try {
-            const data = { success: true, username: 'exampleUser' }; 
+            const res = await fetch('http://127.0.0.1:5000/api/users/login', {
+                method: 'POST',
+                headers: {'Content-type': 'application/json'},
+                body: JSON.stringify({identifier, password})
+            })
+
+            const data = await res.json()
 
             if (data.success) {
-                login(data.username);
+                login(data.username, data.id);
                 navigate('/Dashboard');
             } else {
                 setError('Username/Email or password is incorrect. \nPlease try again.');

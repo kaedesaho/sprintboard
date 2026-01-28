@@ -1,20 +1,20 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from routes.users import users_bp
+from routes.projects import projects_bp
+from routes.tasks import tasks_bp
 
-app = Flask(__name__)
-CORS(app)
+def create_app():
+    app = Flask(__name__)
+    CORS(app)
 
-@app.route('/api/signup', methods=['POST'])
-def signup():
-    data = request.get_json()
-    username = data.get('username')
-    email = data.get('email')
-    password = data.get('password')
+    app.register_blueprint(users_bp, url_prefix="/api/users")
+    app.register_blueprint(projects_bp, url_prefix="/api/projects")
+    app.register_blueprint(tasks_bp, url_prefix="/api/tasks")
 
-    if not all([username, email, password]):
-        return jsonify({'success': False}), 400
+    return app
 
-    return jsonify({'success': True}), 201
+app = create_app()
 
 if __name__ == '__main__':
     app.run(debug=True)

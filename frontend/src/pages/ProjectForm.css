@@ -1,0 +1,194 @@
+.create-project {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 60px);
+}
+
+.project-form-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.project-form-container h1 {
+    font-size: 2rem;
+    margin: 0;
+    margin-bottom: 25px;
+}
+
+.project-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.project-form label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: left;
+    font-family: 'Arial', sans-serif;
+    
+}
+
+.project-form input,
+.project-form textarea {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    font-family: 'Arial', sans-serif;
+}
+
+.project-form input:focus,
+.project-form textarea:focus {
+    border-color: #007bff;
+}
+
+.member-search-container {
+    width: 100%;
+    position: relative;
+}
+
+.member-search-container input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+.search-results {
+    list-style: none;
+    margin: 0;
+    padding: 0.25rem 0;
+    position: absolute;
+    top: 100%; /* right below the input */
+    left: 0;
+    right: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    z-index: 10;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.search-results li {
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-align: left;
+}
+
+.search-results li:hover {
+    background-color: #e0e0e0;
+}
+
+.selected-users {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.selected-user {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #f1f1f1;
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.selected-user button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.selected-user button:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+.selected-user button:disabled {
+    background-color: #aaa;
+    cursor: default;
+}
+
+.remove-btn {
+    color: #ff4d4f;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: color 0.2s;
+}
+
+.remove-btn:hover {
+    color: #d9363e;
+}
+
+/* Form buttons */
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+
+.form-buttons .cancel {
+    width: 180px;
+    font-size: 14px;
+    color: #555;
+    font-weight: 600;
+    padding: 10px 0px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.form-buttons .cancel:hover {
+    background-color: #f0f0f0;
+    color: #000;
+}
+
+.form-buttons .confirm {
+    width: 180px;
+    background-color: #28a745;
+    font-size: 14px;
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    padding: 12px 0px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.form-buttons .confirm {
+    background-color: #218838;
+}
+
+/* Delete button */
+.project-form > button[type="button"] {
+    margin-top: 1rem;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 10px 0px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.project-form > button[type="button"]:hover {
+    background-color: #c82333;
+}
