@@ -40,7 +40,7 @@ const DeleteProjectModal = ({ open, onClose, projectId }: DeleteProjectModalProp
     return (
         <ConfirmModal
             title="Delete Project"
-            message="Are you sure you want to delete your account?"
+            message="Are you sure you want to delete your project?"
             confirmText="Delete"
             onConfirm={handleDelete}
             onCancel={onClose}

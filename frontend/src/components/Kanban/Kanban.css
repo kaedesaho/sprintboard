@@ -3,14 +3,18 @@
   gap: 16px;
   padding: 16px;
   background-color: #f0f2f5;
-  min-height: 100vh;
+  align-items: flex-start;
+  margin: 20px 0;
 }
 
 .column {
+  display: flex;
+  flex-direction: column;
   background-color: #ebecf0;
   border-radius: 6px;
   width: 260px;
   padding: 12px;
+  max-height: calc(100vh - 120px);
 }
 
 .column-title {
@@ -22,6 +26,9 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  flex-grow: 1;
+  overflow-y: auto;
+  min-height: 400px;
 }
 
 .task-card {

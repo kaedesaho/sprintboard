@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import TaskForm, { TaskFormData } from "../components/TaskForm";
+import ConfirmModal from "../components/ui/ConfirmModal";
 import { Task } from "../types/task"
 
 type TaskProps = {
@@ -14,7 +15,7 @@ const TaskPage = ( { mode }: TaskProps) => {
     const taskID = params.taskID;
 
     const [searchParams] = useSearchParams();
-const view = (searchParams.get("view") as "list" | "kanban") || "list";
+    const view = (searchParams.get("view") as "list" | "kanban") || "list";
 
     const isEditMode = mode === "edit";
     const [allTasks, setAllTasks] = useState<Task[]>([]);
@@ -24,6 +25,7 @@ const view = (searchParams.get("view") as "list" | "kanban") || "list";
     const [loading, setLoading] = useState(isEditMode);
     const [error, setError] = useState('');
     const navigate = useNavigate()
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     useEffect(() => {
         const fetchAll = async () => {
@@ -70,10 +72,14 @@ const view = (searchParams.get("view") as "list" | "kanban") || "list";
 
     const handleSubmit = async(formData: TaskFormData) => {
         if (!projectID) return;
-        // create task
+        const url = isEditMode
+        ? `http://127.0.0.1:5000/api/tasks/${taskID}`
+        :  `http://127.0.0.1:5000/api/tasks`;
+        const method = isEditMode ? "PATCH" : "POST";
+
         try {
-            const res = await fetch(`http://127.0.0.1:5000/api/tasks`, { 
-            method: 'POST', 
+            const res = await fetch(url, { 
+            method, 
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 ...formData,
@@ -86,8 +92,8 @@ const view = (searchParams.get("view") as "list" | "kanban") || "list";
         }
 
         const createdTask = await res.json();
-            console.log("Task created:", createdTask);
-            navigate(`/projects/${projectID}?view=${view}`);
+        console.log("Task created:", createdTask);
+        navigate(`/projects/${projectID}?view=${view}`);
             
         } catch (err: any) {
             console.error("Task creation failed:", err);
@@ -95,29 +101,54 @@ const view = (searchParams.get("view") as "list" | "kanban") || "list";
         }
         };
 
-//   const handleDelete = () => {
-//     fetch(`/api/tasks/${taskId}`, { method: 'DELETE' });
-//   };
+    const handleDeleteRequest = () => {
+        setShowDeleteModal(true);
+    };
 
-    const handleDelete = async () => {
-    }
+    const handleDeleteConfirm = async () => {
+        try {
+        const res = await fetch(
+            `http://127.0.0.1:5000/api/tasks/${taskID}`,
+            { method: "DELETE" }
+        );
+
+        if (!res.ok) throw new Error("Delete failed");
+        navigate(`/projects/${projectID}?view=${view}`);
+
+        } catch (err) {
+        console.error(err);
+
+        } finally {
+        setShowDeleteModal(false);
+        }
+    };
 
     if (loading) return <div>Loading...</div>;
 
     return (
         <>
-        {error && <div>{error}</div>}
-        <TaskForm
-        mode={isEditMode ? "edit" : "create"}
-        initialValues={isEditMode ? currentTask! : undefined}
-        tasks={allTasks.map(t => ({ id: t.id, title: t.title }))}
-        users={users}
-        categories={categories}
-        onCategoryCreated={(newCat) => setCategories(prev => [...prev, newCat])}
-        onSubmit={handleSubmit}
-        onDelete={isEditMode ? handleDelete : undefined}
-        view={view}
-        />
+            {error && <div>{error}</div>}
+            <TaskForm
+            mode={isEditMode ? "edit" : "create"}
+            initialValues={isEditMode ? currentTask! : undefined}
+            tasks={allTasks.map(t => ({ id: t.id, title: t.title }))}
+            users={users}
+            categories={categories}
+            onCategoryCreated={(newCat) => setCategories(prev => [...prev, newCat])}
+            onSubmit={handleSubmit}
+            onDelete={isEditMode ? handleDeleteRequest : undefined}
+            view={view}
+            />
+
+            {showDeleteModal && (
+            <ConfirmModal
+            title="Delete Task"
+            message="Are you sure you want to delete the task?"
+            confirmText="Delete"
+            onConfirm={handleDeleteConfirm}
+            onCancel={() => setShowDeleteModal(false)}
+            />
+            )}
         </>
     );
 };

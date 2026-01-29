@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom"
 import TaskList from "./TaskList"
 import KanbanBoard from "./Kanban/KanbanBoard"
 import { Task } from "../types/task"
+import "./ProjectTasks.css"
 
 type ViewMode = "list" | "kanban"
 
@@ -14,7 +15,7 @@ type Props = {
 function ProjectTasks({ projectID }: Props) {
     const [tasks, setTasks] = useState<Task[]>([])
     const [searchParams, setSearchParams] = useSearchParams()
-    const view = searchParams.get("view") || "list"
+    const view = (searchParams.get("view") || "list") as ViewMode
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -41,24 +42,26 @@ function ProjectTasks({ projectID }: Props) {
 
 
     return (
-        <div>
-            <button
-                onClick={() => switchView("list")}
-                disabled={view === "list"}
-                >
-                List View
-                </button>
+        <div className="project-tasks">
+            <div className="view-btn">
                 <button
-                onClick={() => switchView("kanban")}
-                disabled={view === "kanban"}
-                >
-                Kanban View
-            </button>
+                    onClick={() => switchView("list")}
+                    disabled={view === "list"}
+                    >
+                    List View
+                    </button>
+                    <button
+                    onClick={() => switchView("kanban")}
+                    disabled={view === "kanban"}
+                    >
+                    Kanban View
+                </button>
+            </div>
 
             {view === "list" ? (
                 <TaskList projectID={projectID} tasks={tasks} view={view} />
             ) : (
-                <KanbanBoard projectID={projectID} tasks={tasks} view={view} />
+                <KanbanBoard projectID={projectID} tasks={tasks} view={view} setTasks={setTasks} />
             )}
         </div>
   );

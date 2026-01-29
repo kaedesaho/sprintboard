@@ -187,6 +187,7 @@ const TaskForm = ({
                     options={tasks
                         .filter(t => t.id !== initialValues?.id)
                         .map(t => ({ value: t.id, label: t.title}))}
+                    value={form.dependency_ids?.map(id => ({ value: id, label: tasks.find(t => t.id === id)?.title }))}
                     onChange={selected => setForm({
                         ...form,
                         dependency_ids: selected.map((s: any) => s.value)
@@ -222,7 +223,7 @@ const TaskForm = ({
                         <button
                             type="button"
                             onClick={onDelete}
-                            className=""
+                            className="delete-btn"
                         >
                             Delete
                         </button>

@@ -1,6 +1,6 @@
 .project {
     max-width: 800px;        
-    margin: 80px auto;        
+    margin: 40px auto;        
     display: flex;
     flex-direction: column;
 }
@@ -35,7 +35,7 @@
     width: 100% ;
     border: none;
     border-top: 2px solid lightgray; 
-    margin-bottom: 40px;       
+    margin-bottom: 20px;       
 }
 
 .create-task-btn  {

@@ -122,8 +122,9 @@ def create_task():
     end_date = data.get("end_date")
     time_estimation = data.get("time_estimation")
     project_id = data["project_id"]
-    assignees = data.get("assignees", [])  
-    categories = data.get("categories", []) 
+    assignees = data.get("assignees", []) 
+    dependencies = data.get("dependency_ids", []) 
+    categories = data.get("category_ids", []) 
 
     conn = get_db()
     cur = conn.cursor(cursor_factory=RealDictCursor)
@@ -164,6 +165,18 @@ def create_task():
                     VALUES (%s, %s) ON CONFLICT DO NOTHING;
                     """,
                     (task_id, category_id)
+                )
+
+        # Insert into task_dependencies tabel
+        if dependencies:
+            for depends_on_task_id in dependencies:
+                cur.execute(
+                    """
+                    INSERT INTO task_dependencies 
+                    (task_id, depends_on_task_id) 
+                    VALUES (%s, %s) ON CONFLICT DO NOTHING;
+                    """,
+                    (task_id, depends_on_task_id)
                 )
 
         conn.commit()
@@ -253,3 +266,184 @@ def get_task(task_id):
     except Exception as e:
         print("Error fetching task:", e)
         return jsonify({"error": "Internal server error"}), 500
+    
+
+@tasks_bp.route("/<int:task_id>", methods=["PATCH"])
+def edit_task(task_id):
+    data = request.get_json()
+
+    if not data:
+        return jsonify({"error": "No data provided"}), 400
+
+    conn = get_db()
+    cur = conn.cursor(cursor_factory=RealDictCursor)
+
+    try:
+        allowed_fields = [
+            "title",
+            "description",
+            "status",
+            "priority",
+            "sprint",
+            "start_date",
+            "end_date",
+            "time_estimation",
+        ]
+
+        set_clauses = []
+        values = []
+
+        for field in allowed_fields:
+            if field in data:
+                set_clauses.append(f"{field} = %s")
+                values.append(data[field])
+
+        if not set_clauses:
+            return jsonify({"error": "No valid fields to update"}), 400
+
+        values.append(task_id)
+
+        cur.execute(
+            f"""
+            UPDATE tasks
+            SET {", ".join(set_clauses)}
+            WHERE id = %s
+            RETURNING *;
+            """
+            ,
+            values
+        )
+
+        task = cur.fetchone()
+        
+        if not task:
+            return jsonify({"error": "Task not found"}), 404
+
+        if "assignees" in data:
+            cur.execute(
+                "DELETE FROM task_assignees WHERE task_id = %s;",
+                (task_id,)
+            )
+
+            for user_id in data.get("assignees", []):
+                cur.execute(
+                    """
+                    INSERT INTO task_assignees (task_id, user_id)
+                    VALUES (%s, %s);
+                    """,
+                    (task_id, user_id)
+                )
+
+        if "category_ids" in data:
+            cur.execute(
+                "DELETE FROM task_categories WHERE task_id = %s;",
+                (task_id,)
+            )
+
+            for category_id in data.get("category_ids", []):
+                cur.execute(
+                    """
+                    INSERT INTO task_categories (task_id, category_id)
+                    VALUES (%s, %s);
+                    """,
+                    (task_id, category_id)
+                )
+
+        if "dependency_ids" in data:
+            cur.execute(
+                "DELETE FROM task_dependencies WHERE task_id = %s;",
+                (task_id,)
+            )
+
+            for depends_on_task_id in data.get("dependency_ids", []):
+                cur.execute(
+                    """
+                    INSERT INTO task_dependencies (task_id, depends_on_task_id)
+                    VALUES (%s, %s);
+                    """,
+                    (task_id, depends_on_task_id)
+                )
+
+        conn.commit()
+        return jsonify(task), 200
+
+    except Exception as e:
+        conn.rollback()
+        print("Error editing task:", e)
+        return jsonify({"error": "Internal server error"}), 500
+
+    finally:
+        cur.close()
+        conn.close()
+
+
+@tasks_bp.route("/<int:task_id>", methods=["DELETE"])
+def delete_task(task_id):
+    conn = get_db()
+    cur = conn.cursor()
+
+    try:
+        cur.execute(
+            "SELECT id FROM tasks WHERE id = %s;",
+            (task_id,)
+        )
+        if not cur.fetchone():
+            return jsonify({"error": "Task not found"}), 404
+
+        cur.execute(
+            "DELETE FROM task_dependencies WHERE task_id = %s;",
+            (task_id,)
+        )
+
+        cur.execute(
+            "DELETE FROM task_assignees WHERE task_id = %s;",
+            (task_id,)
+        )
+
+        cur.execute(
+            "DELETE FROM task_categories WHERE task_id = %s;",
+            (task_id,)
+        )
+
+        cur.execute(
+            "DELETE FROM tasks WHERE id = %s;",
+            (task_id,)
+        )
+
+        conn.commit()
+        return "", 200
+
+    except Exception as e:
+        conn.rollback()
+        print("Error deleting task:", e)
+        return jsonify({"error": "Internal server error"}), 500
+
+    finally:
+        cur.close()
+        conn.close()
+
+
+@tasks_bp.route("/<int:task_id>/move", methods=["PATCH"])
+def move_task(task_id):
+    data = request.json
+    new_status = data.get("status")  
+    new_index = data.get("index")    # optional: position in column
+
+    if not new_status:
+        return jsonify({"error": "Missing new status"}), 400
+
+    conn = get_db()
+    cur = conn.cursor()
+    try:
+        cur.execute(
+            "UPDATE tasks SET status = %s WHERE id = %s",
+            (new_status, task_id)
+        )
+        conn.commit()
+    except Exception as e:
+        conn.rollback()
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cur.close()
+
+    return jsonify({"success": True, "task_id": task_id, "new_status": new_status})

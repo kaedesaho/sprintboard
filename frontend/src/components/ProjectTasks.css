@@ -1,0 +1,33 @@
+.project-tasks {
+  display: flex;
+  flex-direction: column;
+}
+
+.view-btn {
+    display: flex;
+    gap: 8px;
+}
+
+.view-btn button {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  background-color: white;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.view-btn button:hover:not(:disabled) {
+  background-color: #f0f0f0;
+  border-color: #999;
+}
+
+.view-btn button:disabled {
+  background-color: #4a90e2; 
+  border-color: #4a90e2;
+  color: white;
+  cursor: default;
+}
