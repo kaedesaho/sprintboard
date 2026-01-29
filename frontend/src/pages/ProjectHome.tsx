@@ -1,23 +1,27 @@
 import { AiOutlineInfoCircle, AiOutlineEdit, AiOutlineClockCircle, AiOutlineTeam } from 'react-icons/ai';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Project } from "../types/project"; 
 import "./Project.css";
+import ProjectTasks from '../components/ProjectTasks';
+
 
 const ProjectHome = () => {
-    const { id } = useParams();
+    const { projectID } = useParams();
     const { userID } = useAuth();
     const [project, setProject] = useState<Project | null>(null);
+    const [searchParams, setSearchParams] = useSearchParams()
+    const view = (searchParams.get("view") as "list" | "kanban") || "list"
 
     useEffect(() => {
-    if (!id || !userID) return;
+    if (!projectID || !userID) return;
 
-    fetch(`http://127.0.0.1:5000/api/projects/${id}?user_id=${userID}`)
+    fetch(`http://127.0.0.1:5000/api/projects/${projectID}?user_id=${userID}`)
       .then(res => res.json())
       .then(setProject)
       .catch(console.error);
-  }, [id, userID]);
+  }, [projectID, userID]);
 
   if (!project) return <p>Loading...</p>;
 
@@ -42,18 +46,20 @@ const ProjectHome = () => {
                     </p>
 
                     {project.role === 'Admin' && (
-                    <Link to={`/edit-project/${project.id}`} className="info-btn">
+                    <Link to={`/projects/${project.id}/edit`} className="info-btn">
                         <AiOutlineEdit className="icon" />
                     </Link>
                     )}
                 </div>
                 <div className='project-header-right'>
-                    <Link to={`/task/create/${project.id}`} className="create-task-btn">Create Task</Link>
+                    <Link to={`/projects/${project.id}/tasks/create?view=${view}`} className="create-task-btn">Create Task</Link>
                 </div>
             </div>
 
             <hr className="project-separator" />
-            <p>Project Details</p>
+
+        <ProjectTasks projectID={project.id}/>
+            
         </div>
     );
 };

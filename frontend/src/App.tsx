@@ -22,11 +22,11 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path='/project/:id' element={<ProjectHome />} />
           <Route path='/create-project' element={<ProjectForm mode="create" />} />
-          <Route path='/edit-project/:id' element={<ProjectForm mode="edit" />} />
-          <Route path='/task/create/:id' element={<TaskPage />} />
-          <Route path='/task/:id' element={<TaskPage />} />
+          <Route path='/projects/:projectID' element={<ProjectHome />} />
+          <Route path='/projects/:projectID/edit' element={<ProjectForm mode="edit" />} />
+          <Route path='/projects/:projectID/tasks/create' element={<TaskPage mode="create"/>} />
+          <Route path='/projects/:projectID/tasks/:taskID' element={<TaskPage mode="edit"/>} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

@@ -1,34 +1,30 @@
-/* Overlay behind modal */
 .task-form-container {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.35); /* dark transparent */
+  background: rgba(0, 0, 0, 0.35);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 999;
 }
 
-/* Modal box */
 .task-form {
   background: #fff;
   border-radius: 12px;
   padding: 24px;
   width: 90%;
-  max-width: 720px;
-  max-height: 90vh;
+  max-width: 1000px;
+  max-height: 80vh;
   overflow-y: auto;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: row;
   gap: 14px;
-  position: relative;
 }
 
-/* Close button (optional) */
 .task-form .close-btn {
   position: absolute;
   top: 12px;
@@ -45,7 +41,44 @@
   color: #000;
 }
 
-/* Form inputs */
+.task-form-left {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 10px;
+}
+
+.task-form-right {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 10px;
+}
+
+.form-column {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  gap: 14px;
+}
+
+.form-column-left {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-column-right {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .task-form label {
   font-size: 0.85rem;
   font-weight: 600;
@@ -53,10 +86,19 @@
   margin-top: 8px;
 }
 
-.task-form input,
+.task-form input {
+  width: 80%;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  border: 1px solid #d0d5dd;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+}
 .task-form textarea,
 .task-form select {
-  width: 100%;
+  width: 90%;
   padding: 10px 12px;
   font-size: 0.9rem;
   border-radius: 8px;
@@ -86,14 +128,6 @@
   padding: 6px;
 }
 
-/* Button area */
-.task-form > div:last-child {
-  display: flex;
-  gap: 12px;
-  margin-top: 16px;
-}
-
-/* Primary button */
 .task-form button[type="submit"] {
   padding: 10px 16px;
   border-radius: 8px;
@@ -113,7 +147,6 @@
   transform: translateY(1px);
 }
 
-/* Delete button */
 .task-form button[type="button"] {
   padding: 10px 16px;
   border-radius: 8px;
@@ -138,11 +171,4 @@
 .task-form::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.2);
   border-radius: 3px;
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-  .task-form {
-    padding: 16px;
-  }
 }

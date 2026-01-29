@@ -9,7 +9,7 @@ interface ProjectCardProps {
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
     return (
-        <Link to={`/project/${project.id}`} state={{ project }} className="project-card">
+        <Link to={`/projects/${project.id}`} state={{ project }} className="project-card">
             <div className='card-left'>
                 <h2>{project.title}</h2>
             <div className="info-tooltip">

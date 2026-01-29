@@ -197,3 +197,4 @@ def delete_project(project_id):
 
     finally:
         cur.close()
+

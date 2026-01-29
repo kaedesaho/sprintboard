@@ -17,7 +17,7 @@ interface SelectedUser extends User {
 }
 
 const ProjectForm = ( { mode }: { mode:Mode } ) => {
-    const { id } = useParams();
+    const { projectID } = useParams();
     const { userID, username } = useAuth();
     if (!userID || !username) return null;
     const currentUser: SelectedUser = { id: userID, username, role: "Admin" };
@@ -35,14 +35,14 @@ const ProjectForm = ( { mode }: { mode:Mode } ) => {
 
     // Edit
     useEffect(() => {
-        if (!isEditMode || !id || !userID) return;
+        if (!isEditMode || !projectID || !userID) return;
 
-        fetch(`http://127.0.0.1:5000/api/projects/${id}?user_id=${userID}`)
+        fetch(`http://127.0.0.1:5000/api/projects/${projectID}?user_id=${userID}`)
             .then(res => res.json())
             .then(setProject)
             .catch(console.error);
 
-        fetch(`http://127.0.0.1:5000/api/projects/${id}/members`)
+        fetch(`http://127.0.0.1:5000/api/projects/${projectID}/members`)
             .then(res => res.json())
             .then(data => {
 
@@ -56,7 +56,7 @@ const ProjectForm = ( { mode }: { mode:Mode } ) => {
     })
         .catch(console.error);
 
-    }, [isEditMode, id, userID]);
+    }, [isEditMode, projectID, userID]);
 
     useEffect(() => {
     if (isEditMode && project) {
@@ -146,7 +146,7 @@ const ProjectForm = ( { mode }: { mode:Mode } ) => {
             const data = await res.json();
             console.log("Project created:", data);
             if (!data.success) throw new Error(data.error || "Project creation failed");
-            navigate(`/project/${data.project_id}`);
+            navigate(`/projects/${data.project_id}`);
 
         } catch (err) {
             console.error(err);
@@ -217,7 +217,7 @@ const ProjectForm = ( { mode }: { mode:Mode } ) => {
 
                     <div className="form-buttons">
                         {isEditMode ? (
-                        <Link to={`/project/${project.id}`} state={{project}} className="cancel">Cancel</Link>
+                        <Link to={`/projects/${project.id}`} className="cancel">Cancel</Link>
                         ) : (
                         <Link to="/dashboard" className="cancel">Cancel</Link>
                         )}
