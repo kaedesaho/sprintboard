@@ -25,6 +25,7 @@ const ProjectForm = ( { mode }: { mode:Mode } ) => {
     const [project, setProject] =useState<any>(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [title, setTitle] = useState("");
+    const [curSprint, setCurSprint] = useState("")
     const [description, setDescription] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState<User[]>([]);
@@ -62,6 +63,7 @@ const ProjectForm = ( { mode }: { mode:Mode } ) => {
     if (isEditMode && project) {
         setTitle(project.title || "");
         setDescription(project.description || "");
+        setCurSprint(project.cur_sprint || "");
     }
 }, [isEditMode, project]);
        
@@ -137,6 +139,7 @@ const ProjectForm = ( { mode }: { mode:Mode } ) => {
                 body: JSON.stringify({
                     title: title,
                     description: description,
+                    cur_sprint: curSprint,
                     members: selectedUsers.map((u) => ({ user_id: u.id, role: u.role }))
                 })
             });
@@ -213,7 +216,16 @@ const ProjectForm = ( { mode }: { mode:Mode } ) => {
             
                             </div>
                         ))}
-                    </div>  
+                    </div> 
+
+                    <label htmlFor="cur_sprint">Current Sprint</label>
+                    <input
+                    id="cur_sprint"
+                    type="number"
+                    value={curSprint}
+                    onChange={(e) => setCurSprint(e.target.value)}
+                    />
+
 
                     <div className="form-buttons">
                         {isEditMode ? (

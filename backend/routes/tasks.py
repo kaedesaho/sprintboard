@@ -114,13 +114,13 @@ def create_task():
             return jsonify({"error": "Missing required field"}), 400
 
     title = data["title"]
-    description = data.get("description")
+    description = data.get("description") or None
     status = data.get("status", "backlog")
-    priority = data.get("priority")
-    sprint = data.get("sprint")
-    start_date = data.get("start_date")
-    end_date = data.get("end_date")
-    time_estimation = data.get("time_estimation")
+    priority = data.get("priority") or None
+    sprint = data.get("sprint") or None
+    start_date = data.get("start_date") or None
+    end_date = data.get("end_date") or None
+    time_estimation = data.get("time_estimation") or None
     project_id = data["project_id"]
     assignees = data.get("assignees", []) 
     dependencies = data.get("dependency_ids", []) 
@@ -198,7 +198,7 @@ def get_project_tasks(project_id: int):
     cur = conn.cursor(cursor_factory=RealDictCursor)
 
     query = """
-        SELECT t.id, t.title, t.status, t.priority,
+        SELECT t.id, t.title, t.description, t.status, t.priority,
                t.sprint, t.start_date, t.end_date, t.time_estimation,
                t.created_at, t.updated_at,
                COALESCE(
@@ -208,12 +208,17 @@ def get_project_tasks(project_id: int):
                 COALESCE(
                     ARRAY_REMOVE(ARRAY_AGG(DISTINCT c.name), NULL),
                     '{}'
-                ) AS category_ids
+                ) AS category_ids,
+                COALESCE(
+                    ARRAY_REMOVE(ARRAY_AGG(DISTINCT td.depends_on_task_id), NULL),
+                    '{}'
+                ) AS dependency_ids
         FROM tasks t
         LEFT JOIN task_assignees ta ON t.id = ta.task_id
         LEFT JOIN users u ON ta.user_id = u.id
         LEFT JOIN task_categories tc ON t.id = tc.task_id
         LEFT JOIN categories c ON tc.category_id = c.id
+        LEFT JOIN task_dependencies td ON t.id = td.task_id
         WHERE t.project_id = %s
         GROUP BY t.id
         ORDER BY t.created_at ASC;
@@ -295,8 +300,12 @@ def edit_task(task_id):
 
         for field in allowed_fields:
             if field in data:
+                value = data[field]
+                # Convert empty strings to NULL for nullable fields
+                if value == "":
+                    value = None
                 set_clauses.append(f"{field} = %s")
-                values.append(data[field])
+                values.append(value)
 
         if not set_clauses:
             return jsonify({"error": "No valid fields to update"}), 400

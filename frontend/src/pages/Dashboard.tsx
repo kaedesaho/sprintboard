@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Masonry from "react-masonry-css";
 import ProjectCard from "../components/ProjectCard";
 import { Project } from "../types/project";
 import { useAuth } from "../context/AuthContext"; 
@@ -21,9 +22,11 @@ const Dashboard = () => {
                 const mappedProjects = data.map((p: any) => ({
                     id: p.project_id.toString(),
                     title: p.title,
+                    cur_sprint: p.cur_sprint || "",
                     description: p.description || "",
                     role: p.role,
-                    last_updated: p.last_updated,
+                    updated_at: p.updated_at,
+                    created_at: p.created_at
             }));
             setProjects(mappedProjects);
             } catch (err) {
@@ -35,6 +38,11 @@ const Dashboard = () => {
         fetchProjects();
     }, [userID]);
 
+    const breakpointColumnsObj = {
+    default: 2, 
+  768: 1,     // tablet
+  };
+
     if (loading) return <p>Loading projects...</p>;
 
     return (
@@ -45,15 +53,20 @@ const Dashboard = () => {
             </div>
 
             <hr className="dashboard-separator" />
-            
             {projects.length == 0 ? (
                 <p>No projects found</p>
             ) : (
-                projects.map(project => (
-                <ProjectCard key={project.id} project={project} />
-                ))
+                <Masonry
+                breakpointCols={breakpointColumnsObj}
+                className="project-cards-masonry" 
+                columnClassName="project-cards-column" 
+                >
+                {projects.map((project) => (
+                    <ProjectCard key={project.id} project={project} />
+                ))}
+                </Masonry>
             )}
-        </div>
+            </div>
     );
 };
 

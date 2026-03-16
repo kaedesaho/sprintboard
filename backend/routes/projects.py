@@ -15,12 +15,14 @@ def get_user_projects(user_id):
             p.id AS project_id,
             p.title,
             p.description,
-            p.last_updated,
+            p.cur_sprint,
+            p.created_at,
+            p.updated_at,
             pm.role
         FROM projects p
         JOIN project_members pm ON p.id = pm.project_id
         WHERE pm.user_id = %s
-        ORDER BY p.last_updated DESC;
+        ORDER BY p.updated_at DESC;
         """
     
     cur.execute(query, (user_id,))
@@ -37,6 +39,7 @@ def create_project():
     title = data["title"]
     description = data.get("description", "")
     members = data.get("members", [])
+    cur_sprint = data.get("cur_sprint", "")
 
     conn = get_db()
     cur = conn.cursor(cursor_factory=RealDictCursor)
@@ -45,9 +48,9 @@ def create_project():
         # Insert project
         cur.execute(
             """
-            INSERT INTO projects (title, description, last_updated) 
-            VALUES (%s, %s, NOW()) 
-            RETURNING id, title, description, last_updated
+            INSERT INTO projects (title, description, cur_sprint, updated_at, created_at) 
+            VALUES (%s, %s, %s, NOW(), NOW()) 
+            RETURNING id, title, description, cur_sprint, updated_at, created_at
             """,
             (title, description)
         )
@@ -91,7 +94,9 @@ def get_project_overview(project_id):
             p.id,
             p.title,
             p.description,
-            p.last_updated,
+            p.updated_at,
+            p.created_at,
+            p.cur_sprint,
             pm.role
         FROM projects p
         JOIN project_members pm ON pm.project_id = p.id
@@ -114,10 +119,12 @@ def get_project_members(project_id):
     cur = conn.cursor(cursor_factory=RealDictCursor)
 
     cur.execute("""
-        SELECT u.id AS user_id, u.username, pm.role
+        SELECT u.id AS user_id, u.username, u.email,
+               u.first_name, u.last_name, pm.role, u.photo_url
         FROM project_members pm
         JOIN users u ON u.id = pm.user_id
         WHERE pm.project_id = %s
+        ORDER BY pm.role DESC, u.username ASC
     """, (project_id,))
 
     members = cur.fetchall()
@@ -131,6 +138,7 @@ def edit_project(project_id):
     data = request.get_json()
     title = data["title"]
     description = data.get("description", "")
+    cur_sprint = data.get("cur_sprint", "")
     members = data.get("members", [])
 
     conn = get_db()
@@ -141,10 +149,10 @@ def edit_project(project_id):
         cur.execute(
             """
             UPDATE projects 
-            SET title = %s, description = %s, last_updated = NOW() 
+            SET title = %s, description = %s, cur_sprint = %s, updated_at = NOW() 
             WHERE id = %s
             """,
-            (title, description, project_id)
+            (title, description, cur_sprint, project_id)
         )
 
         cur.execute("DELETE FROM project_members WHERE project_id = %s", (project_id,))

@@ -1,103 +1,66 @@
 .project-card {
-    display: flex;            
-    align-items: center;      
-    justify-content: space-between;
+    display: block;
+    width: 100%;         
+    box-sizing: border-box;        
+    margin-bottom: 16px;
     padding: 16px 20px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    margin-bottom: 16px;      
     background-color: #fff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    text-align: left;
+    color: #333;
 }
 
 .project-card:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.card-left {
-    flex-basis: 70%;
+.card-header {
+    width: 100%;
     display: flex;
-    flex-direction: row;
-    gap: 4px;    
-    align-items: center;             
+    align-items: flex-start;
+    gap: 12px;
 }
 
-.card-left h2 {
-    font-size: 16px;
-    font-weight: 600; 
-    color: black;
-    text-align: left;
-    margin: 0 5px; 
-}
-
-.info-tooltip {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.info {
-    font-size: 18px;
-    color: #555;
+.card-header h2 {
+    flex: 1;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.25;
+    white-space: normal;
+    word-break: break-word;
     margin-top: 5px;
+    color: #000;
 }
 
-.tooltip-text {
-  visibility: hidden;
-  width: 180px;
-  background-color: #333;
-  color: #fff;
-  text-align: left;
-  border-radius: 6px;
-  padding: 10px;
-  position: absolute;
-  z-index: 1;
-  top: 125%;
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  transition: opacity 0.2s;
+.card-header h3 {
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-size: 14px;
+  color: #555;
+  margin: 0;
 }
 
-.info-tooltip:hover .tooltip-text {
-  visibility: visible;
-  opacity: 1;
-}
-
-.card-right {
-    flex-basis: 30%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    gap: 4px;                 
-}
-
-.project-role {
-    display: flex;
-    align-items: center;
-    flex-basis: 40%;
-    font-size: 14px;
-    margin: 0;
+.project-card p {
+    width: 100%;
+    color: #333;
     text-align: left;
-    color: #555;
-    gap: 6px;
-}
-
-.project-last-updated {
-    display: flex;
-    align-items: center;
-    flex-basis: 60%;
     font-size: 14px;
-    margin: 0;
-    text-align: left;
-    color: #555;
-    gap: 6px;
+    font-weight: 400;
 }
 
-.project-role .icon,
-.project-last-updated .icon {
-    font-size: 18px;
-    color: #555;
+.card-dates {
+  width: 100%;
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid #eee;
+
+  display: flex;
+  justify-content: space-between;
+
+  font-size: 12px;
+  color: #777;
 }
+

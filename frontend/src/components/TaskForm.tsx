@@ -3,6 +3,8 @@ import { Task, TaskStatus, TaskPriority } from "../types/task"
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
+import { ViewMode } from "../types/view";
+import { AiOutlineClose } from "react-icons/ai";
 import "./TaskForm.css"
 
 export type TaskFormData = {
@@ -13,6 +15,8 @@ export type TaskFormData = {
     sprint?: number;
     start_date?: string;
     end_date?: string;
+    created_at?: string;
+    updated_at?: string;
     time_estimation?: number;
     dependency_ids?: number[];
     category_ids?: number[];
@@ -28,7 +32,7 @@ interface TaskFormProps {
     onSubmit: (data: TaskFormData) => void;
     onDelete?: () => void;
     onCategoryCreated?: (newCat: { id: number; name: string }) => void;
-    view: "list" | "kanban";
+    view: ViewMode
 }
 
 const TaskForm = ({ 
@@ -36,14 +40,19 @@ const TaskForm = ({
 }:TaskFormProps) => {
     const navigate = useNavigate();
     const { projectID } = useParams(); 
+    const formatDate = (date?: string | Date) =>
+    date ? (date instanceof Date ? date.toISOString().slice(0, 10) : date.slice(0, 10)) : "";
+
     const [form, setForm] = useState<TaskFormData>({
     title: initialValues?.title ?? "",
     description: initialValues?.description ?? "",
     status: initialValues?.status ?? "backlog",
     priority: initialValues?.priority,
     sprint: initialValues?.sprint,
-    start_date: initialValues?.start_date,
-    end_date: initialValues?.end_date,
+    start_date: formatDate(initialValues?.start_date),
+    end_date: formatDate(initialValues?.end_date),
+    created_at: initialValues?.created_at,
+    updated_at: initialValues?.updated_at,
     time_estimation: initialValues?.time_estimation,
     dependency_ids: initialValues?.dependency_ids ?? [],
     category_ids: initialValues?.category_ids ?? [],
@@ -112,8 +121,39 @@ const TaskForm = ({
                         assignees: selected.map((s: any) => s.value)
                     })}
                     />
+                    <div className="form-column">
+                        <div className="form-date">
+                            <label htmlFor="start_date">Start Date</label>
+                            <input
+                            id="start_date"
+                            type="date"
+                            value={form.start_date ?? ""}
+                            onChange={e => setForm({ ...form, start_date: e.target.value })}
+                            />
+                        </div>
+                        <div className="form-date">
+                            <label htmlFor="end_date">End Date</label>
+                            <input
+                            id="end_date"
+                            type="date"
+                            value={form.end_date ?? ""}
+                            onChange={e => setForm({ ...form, end_date: e.target.value })}
+                            />
+                        </div>
+                    </div>
+
+                    {mode === "edit" && form.created_at && form.updated_at &&(
+                        <div className="form-log">
+                            <p>Created: {new Date(form.created_at).toLocaleString()}</p>
+                            <p>Last updated: {new Date(form.updated_at).toLocaleString()}</p>
+                        </ div>
+
+                    )}
                 </div>
                 <div className="task-form-right">
+                    <Link to={`/projects/${projectID}?view=${view}`} className="cancel">
+                        <AiOutlineClose className="form-close"/>
+                    </Link>
                     <div className="form-column">
                         <div className="form-column-left">
                             <label htmlFor="status">Status</label>
@@ -164,22 +204,6 @@ const TaskForm = ({
                         </div>
                     </div>
 
-                    <label htmlFor="start_date">Start Date</label>
-                    <input
-                    id="start_date"
-                    type="date"
-                    value={form.start_date ?? ""}
-                    onChange={e => setForm({ ...form, start_date: e.target.value })}
-                    />
-
-                    <label htmlFor="end_date">End Date</label>
-                    <input
-                    id="end_date"
-                    type="date"
-                    value={form.end_date ?? ""}
-                    onChange={e => setForm({ ...form, end_date: e.target.value })}
-                    />
-
                     <label htmlFor="dependency">Dependency</label>
                     <Select
                     id="dependency"
@@ -214,7 +238,6 @@ const TaskForm = ({
                     />
 
                     <div className="form-buttons">
-                        <Link to={`/projects/${projectID}?view=${view}`} className="cancel">Cancel</Link>
                         <button type="submit" className="">
                         {mode === "edit" ? "Update Task" : "Create Task"}
                         </button>

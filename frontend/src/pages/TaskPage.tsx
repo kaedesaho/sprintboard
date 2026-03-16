@@ -3,6 +3,8 @@ import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import TaskForm, { TaskFormData } from "../components/TaskForm";
 import ConfirmModal from "../components/ui/ConfirmModal";
 import { Task } from "../types/task"
+import { parseEnum } from "../utils/parseEnum";
+import { ViewMode, allowedViews } from "../types/view";
 
 type TaskProps = {
     mode: 'create' | 'edit';
@@ -15,7 +17,7 @@ const TaskPage = ( { mode }: TaskProps) => {
     const taskID = params.taskID;
 
     const [searchParams] = useSearchParams();
-    const view = (searchParams.get("view") as "list" | "kanban") || "list";
+    const view: ViewMode = parseEnum(searchParams.get("view"), allowedViews, "list");
 
     const isEditMode = mode === "edit";
     const [allTasks, setAllTasks] = useState<Task[]>([]);

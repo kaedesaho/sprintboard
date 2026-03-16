@@ -1,0 +1,229 @@
+.note-page {
+    max-width: 800px;
+    width: 100%;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.note-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.note-page-header-left h1 {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 26px;
+    font-weight: 700;
+    color: #222;
+    margin: 0 0 10px;
+}
+
+.note-type-badge {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: capitalize;
+    background-color: #e8f0fe;
+    color: #4A90E2;
+    padding: 3px 10px;
+    border-radius: 10px;
+    white-space: nowrap;
+}
+
+.note-sprint-badge {
+    font-size: 13px;
+    font-weight: 600;
+    background-color: #e8f0fe;
+    color: #4A90E2;
+    padding: 3px 10px;
+    border-radius: 12px;
+}
+
+.note-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 14px;
+    color: #555;
+}
+
+.note-shared-badge {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 12px;
+}
+
+.note-shared-badge.shared {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.note-shared-badge.private {
+    background-color: #f1f1f1;
+    color: #666;
+}
+
+.note-page-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+    margin-top: 4px;
+}
+
+.btn-edit {
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-edit:hover {
+    background-color: #f0f0f0;
+}
+
+.btn-delete {
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    background-color: #dc3545;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+.note-separator {
+    border: none;
+    border-top: 1.5px solid lightgray;
+    margin: 16px 0 24px;
+}
+
+.note-content p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #333;
+    white-space: pre-wrap;
+}
+
+/* Edit form */
+.note-edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.note-form-row {
+    display: flex;
+    gap: 12px;
+}
+
+.note-form-row .note-form-group {
+    flex: 1;
+}
+
+.note-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.note-form-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.note-form-group input,
+.note-form-group select,
+.note-form-group textarea {
+    padding: 9px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    background: #fff;
+}
+
+.note-form-group input:focus,
+.note-form-group select:focus,
+.note-form-group textarea:focus {
+    outline: none;
+    border-color: #4A90E2;
+}
+
+.note-form-group textarea {
+    resize: vertical;
+}
+
+.note-form-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.note-form-error {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+.required {
+    color: #dc3545;
+}
+
+.note-form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.btn-cancel {
+    flex: 1;
+    padding: 10px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-cancel:hover {
+    background-color: #f0f0f0;
+}
+
+.btn-confirm {
+    flex: 1;
+    padding: 10px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    background-color: #28a745;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-confirm:hover {
+    background-color: #218838;
+}

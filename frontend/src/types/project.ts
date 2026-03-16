@@ -3,5 +3,7 @@ export interface Project {
     title: string;
     description?: string;
     role: string;
-    last_updated: string;
+    cur_sprint: number;
+    updated_at: string;
+    created_at: string;
 }

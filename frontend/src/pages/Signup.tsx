@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import './Auth.css';
 
 const Signup = () => {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -13,7 +15,6 @@ const Signup = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
         setError('');
         setSuccess('');
 
@@ -25,68 +26,93 @@ const Signup = () => {
         try {
             const res = await fetch('http://127.0.0.1:5000/api/users/signup', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ username, email, password }),
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    first_name: firstName,
+                    last_name: lastName,
+                    username,
+                    email,
+                    password,
+                }),
             });
 
             const data = await res.json();
 
             if (data.success) {
-                setSuccess('Account created successfully! \nRedirecting to login...');
+                setSuccess('Account created successfully!\nRedirecting to login...');
                 setTimeout(() => navigate('/login'), 4000);
             } else {
                 setError(data.error);
             }
         } catch (err) {
             console.error("FETCH ERROR:", err);
-            setError('Server error !!');
+            setError('Server error!!');
         }
     };
-            
 
     return (
-    <div className="auth">
-        <div className="auth-container">
-            <h1>Create an Account</h1>
-            {error && <p className="error">{error}</p>}
-            {success && <p className="success">{success}</p>}
-            <form className="auth-form" onSubmit={handleSubmit}>
-                <label htmlFor="username">Username*</label>
-                <input 
-                id="username"
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-                />
-                <label htmlFor="email">Email*</label>
-                <input 
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)} 
-                required
-                />
-                <label htmlFor="password">Password*</label>
-                <input 
-                id="password"
-                type="password" 
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                />
-                <label htmlFor="confirm-password">Confirm Password*</label>
-                <input 
-                id="confirm-password"
-                type="password" 
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-                />
-                <button type="submit">Sign Up</button>
-            </form>
+        <div className="auth">
+            <div className="auth-container">
+                <h1>Create an Account</h1>
+                {error && <p className="error">{error}</p>}
+                {success && <p className="success">{success}</p>}
+                <form className="auth-form" onSubmit={handleSubmit}>
+                    <div className="auth-row">
+                        <div className="auth-field">
+                            <label htmlFor="first-name">First Name</label>
+                            <input
+                                id="first-name"
+                                type="text"
+                                value={firstName}
+                                onChange={e => setFirstName(e.target.value)}
+                            />
+                        </div>
+                        <div className="auth-field">
+                            <label htmlFor="last-name">Last Name</label>
+                            <input
+                                id="last-name"
+                                type="text"
+                                value={lastName}
+                                onChange={e => setLastName(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                    <label htmlFor="username">Username*</label>
+                    <input
+                        id="username"
+                        type="text"
+                        value={username}
+                        onChange={e => setUsername(e.target.value)}
+                        required
+                    />
+                    <label htmlFor="email">Email*</label>
+                    <input
+                        id="email"
+                        type="email"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                        required
+                    />
+                    <label htmlFor="password">Password*</label>
+                    <input
+                        id="password"
+                        type="password"
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                        required
+                    />
+                    <label htmlFor="confirm-password">Confirm Password*</label>
+                    <input
+                        id="confirm-password"
+                        type="password"
+                        value={confirmPassword}
+                        onChange={e => setConfirmPassword(e.target.value)}
+                        required
+                    />
+                    <button type="submit">Sign Up</button>
+                </form>
+            </div>
         </div>
-    </div>
     );
 };
 

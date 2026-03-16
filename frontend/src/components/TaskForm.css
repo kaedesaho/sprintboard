@@ -14,15 +14,15 @@
 .task-form {
   background: #fff;
   border-radius: 12px;
-  padding: 24px;
+  padding: 20px 30px 30px;
   width: 90%;
-  max-width: 1000px;
+  max-width: 760px;
   max-height: 80vh;
   overflow-y: auto;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: row;
-  gap: 14px;
+  gap: 40px;
 }
 
 .task-form .close-btn {
@@ -37,7 +37,18 @@
   transition: color 0.2s;
 }
 
-.task-form .close-btn:hover {
+.cancel {
+  width: 100%;
+  text-align: right;
+  margin-bottom: -14px;
+}
+
+.form-close {
+  font-size: 22px;
+  color: gray;
+}
+
+.cancel :hover {
   color: #000;
 }
 
@@ -61,8 +72,14 @@
   width: 100%;
   display: flex;
   flex-direction: row;
-  padding: 10px;
   gap: 14px;
+}
+
+.form-date {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .form-column-left {
@@ -87,18 +104,21 @@
 }
 
 .task-form input {
-  width: 80%;
+  box-sizing: border-box;
+  width: 100%;
   padding: 10px 12px;
   font-size: 0.9rem;
   border-radius: 8px;
   border: 1px solid #d0d5dd;
   background: #fff;
   transition: border-color 0.2s, box-shadow 0.2s;
-
 }
+
 .task-form textarea,
 .task-form select {
-  width: 90%;
+  font-family: 'Arial', sans-serif;
+  box-sizing: border-box;
+  width: 100%;
   padding: 10px 12px;
   font-size: 0.9rem;
   border-radius: 8px;
@@ -119,6 +139,7 @@
 .task-form input:focus,
 .task-form textarea:focus,
 .task-form select:focus {
+  font-style: ;
   outline: none;
   border-color: #6366f1;
   box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
@@ -128,7 +149,28 @@
   padding: 6px;
 }
 
+.form-log {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  font-size: 12px;
+  font-weight: 570;
+  color: rgb(139, 139, 139);
+}
+
+.form-log p {
+  margin: 2px;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
 .task-form button[type="submit"] {
+  width: 100%;
   padding: 10px 16px;
   border-radius: 8px;
   border: none;

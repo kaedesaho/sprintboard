@@ -1,0 +1,116 @@
+.project-layout {
+    max-width: 1000px;
+    width: 100%;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-layout-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.project-layout-header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #222;
+    margin: 5px 0;
+}
+
+.project-layout-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.layout-edit-btn {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #555;
+    gap: 6px;
+}
+
+.layout-edit-btn .icon {
+    font-size: 22px;
+    color: #555;
+}
+
+.layout-edit-btn:hover .icon {
+    color: #222;
+}
+
+/* Re-use tooltip styles from Project.css */
+.info-tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.info-icon {
+    font-size: 22px;
+    color: #555;
+    margin-top: 5px;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    width: 180px;
+    background-color: #333;
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 10px;
+    position: absolute;
+    z-index: 1;
+    top: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.info-tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Sub-nav tab bar */
+.project-subnav {
+    display: flex;
+    gap: 0;
+    padding: 12px 10px 0;
+}
+
+.subnav-tab {
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+    border-bottom: 2px solid transparent;
+    text-decoration: none;
+    transition: color 0.15s, border-color 0.15s;
+}
+
+.subnav-tab:hover {
+    color: #222;
+    border-bottom-color: #bbb;
+}
+
+.subnav-tab.active {
+    color: #4A90E2;
+    border-bottom-color: #4A90E2;
+    font-weight: 600;
+}
+
+.project-layout-separator {
+    width: 100%;
+    border: none;
+    border-top: 1.5px solid lightgray;
+    margin-top: 0;
+    margin-bottom: 20px;
+}

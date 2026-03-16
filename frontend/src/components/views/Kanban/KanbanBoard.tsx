@@ -2,7 +2,8 @@ import { useState, useEffect } from "react"
 import { BoardData, ColumnData } from "./types"
 import Column from "./Column"
 import buildBoardData from "./BoardData"
-import { Task, TaskStatus } from "../../types/task"
+import { ViewMode } from "../../../types/view"
+import { Task, TaskStatus } from "../../../types/task"
 import { DragDropContext, Droppable, DropResult, Draggable } from "@hello-pangea/dnd"
 import "./Kanban.css"
 
@@ -10,7 +11,7 @@ type KanbanBoardProps = {
   projectID: string
   tasks: Task[]
   setTasks: React.Dispatch<React.SetStateAction<Task[]>>
-  view: "list" | "kanban"
+  view: ViewMode
 }
 
 function KanbanBoard({ projectID, tasks: tasksProp, view, setTasks}: KanbanBoardProps) {

@@ -26,7 +26,7 @@ const Login = () => {
             const data = await res.json()
 
             if (data.success) {
-                login(data.username, data.id);
+                login(data.username, data.id, data.photo_url ?? null);
                 navigate('/Dashboard');
             } else {
                 setError('Username/Email or password is incorrect. \nPlease try again.');

@@ -1,14 +1,15 @@
 import TaskCard from "./TaskCard"
 import { ColumnData as ColumnType } from "./types"
-import { Task } from "../../types/task"
+import { Task } from "../../../types/task"
 import { Draggable, Droppable } from "@hello-pangea/dnd"
+import { ViewMode } from "../../../types/view"
 import "./Kanban.css"
 
 type ColumnProps = {
   column: ColumnType
   tasks: Task[]
   projectID: string
-  view: "list" | "kanban"
+  view: ViewMode
 }
 
 export default function Column({ column, tasks, projectID, view }: ColumnProps) {

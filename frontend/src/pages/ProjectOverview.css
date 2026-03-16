@@ -1,0 +1,131 @@
+.overview {
+    padding: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.overview-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.overview-card h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 16px;
+}
+
+/* Sprint Progress */
+.sprint-progress-bar-wrap {
+    background: #f3f4f6;
+    border-radius: 999px;
+    height: 10px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.sprint-progress-bar-fill {
+    background: #4f46e5;
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.3s ease;
+}
+
+.sprint-progress-label {
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-bottom: 12px;
+}
+
+.sprint-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+/* Task list */
+.overview-task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.overview-task-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    font-size: 0.875rem;
+    color: #111827;
+    text-decoration: none;
+}
+
+.overview-task-item:hover {
+    background: #f3f4f6;
+}
+
+.overview-task-title {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.overview-task-date {
+    font-size: 0.75rem;
+    color: #ef4444;
+    white-space: nowrap;
+}
+
+.overview-empty {
+    font-size: 0.85rem;
+    color: #9ca3af;
+    text-align: center;
+    padding: 12px 0;
+}
+
+/* Badges */
+.badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+/* Status badges */
+.badge-todo        { background: #e5e7eb; color: #374151; }
+.badge-in_progress { background: #dbeafe; color: #1d4ed8; }
+.badge-testing     { background: #ede9fe; color: #7c3aed; }
+.badge-review      { background: #fef3c7; color: #92400e; }
+.badge-blocked     { background: #fee2e2; color: #b91c1c; }
+.badge-done        { background: #d1fae5; color: #065f46; }
+.badge-backlog     { background: #f3f4f6; color: #6b7280; }
+
+/* Priority badges */
+.badge-high   { background: #fee2e2; color: #b91c1c; }
+.badge-medium { background: #fef3c7; color: #92400e; }
+.badge-low    { background: #d1fae5; color: #065f46; }
+
+@media (max-width: 700px) {
+    .overview-grid {
+        grid-template-columns: 1fr;
+    }
+}

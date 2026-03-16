@@ -9,24 +9,26 @@ interface ProjectCardProps {
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
     return (
-        <Link to={`/projects/${project.id}`} state={{ project }} className="project-card">
-            <div className='card-left'>
+        <Link to={`/projects/${project.id}`} 
+        state={{ project }} 
+        className="project-card"
+        >
+
+            <div className='card-header'>
                 <h2>{project.title}</h2>
-            <div className="info-tooltip">
-                <AiOutlineInfoCircle className='info'/>
-                <span className="tooltip-text">{project.description}</span>
-            </div>
-            </div>
-            <div className='card-right'>    
-                <p className='project-role'>
-                    <AiOutlineTeam className="icon" />
-                    {project.role}
-                </p>
-                <p className='project-last-updated'>
-                    <AiOutlineClockCircle className="icon" />
-                    {new Date(project.last_updated).toLocaleDateString()}
-                </p>
-            </div>
+
+                {project.cur_sprint && (
+                <h3>Sprint {project.cur_sprint}</h3>
+                )}
+               </div>
+
+                <p>{project.description}</p>
+
+                <div className='card-dates'>
+                    <span>Created {new Date(project.created_at).toLocaleDateString()}</span>
+                    <span>Updated {new Date(project.updated_at).toLocaleDateString()}</span>
+                </div>
+            
         </Link>
     )
 };
