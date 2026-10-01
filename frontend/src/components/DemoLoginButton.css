@@ -1,0 +1,34 @@
+.demo-login {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.demo-login-btn {
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid var(--accent);
+    background: transparent;
+    color: var(--accent);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.demo-login-btn:hover:not(:disabled) {
+    background: var(--accent);
+    color: #fff;
+}
+
+.demo-login-btn:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.demo-login-error {
+    margin: 8px 0 0;
+    color: #fca5a5;
+    font-size: 0.85rem;
+    text-align: center;
+}

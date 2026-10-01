@@ -1,12 +1,18 @@
-import { Outlet, useParams } from 'react-router-dom';
+import { Outlet, useParams, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useProject } from '../context/ProjectContext';
+import ProjectHeader from '../components/ProjectHeader';
 
 const ProjectLayout = () => {
     const { projectID } = useParams();
     const { userID } = useAuth();
     const { project, setProject } = useProject();
+    const location = useLocation();
+
+    const hideHeader = location.pathname.endsWith('/user-settings')
+        || location.pathname.includes('/tasks/create')
+        || /\/tasks\/[^/]+$/.test(location.pathname);
 
     useEffect(() => {
         if (!projectID || !userID) return;
@@ -21,7 +27,12 @@ const ProjectLayout = () => {
 
     if (!project) return <p>Loading...</p>;
 
-    return <Outlet context={project} />;
+    return (
+        <>
+            {!hideHeader && <ProjectHeader />}
+            <Outlet context={project} />
+        </>
+    );
 };
 
 export default ProjectLayout;

@@ -1,49 +1,109 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  font-weight: 400;
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --sidebar-width: 220px;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  /* Backgrounds */
+  --bg-base:     #0f1117;
+  --bg-surface:  #1a1d27;
+  --bg-elevated: #222636;
+  --bg-overlay:  #2a2f42;
+
+  /* Borders */
+  --border:      #2e3347;
+  --border-focus:#6366f1;
+
+  /* Text */
+  --text-primary:   #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted:     #64748b;
+
+  /* Accent (indigo) */
+  --accent:       #6366f1;
+  --accent-hover: #818cf8;
+
+  /* Semantic */
+  --red:    #ef4444;
+  --green:  #22c55e;
+  --yellow: #f59e0b;
+
+  /* Status badge tokens */
+  --badge-todo-bg:        #1e2535; --badge-todo-text:        #94a3b8;
+  --badge-in_progress-bg: #1e2a4a; --badge-in_progress-text: #60a5fa;
+  --badge-testing-bg:     #2a1e4a; --badge-testing-text:     #a78bfa;
+  --badge-review-bg:      #3a2e1a; --badge-review-text:      #fbbf24;
+  --badge-blocked-bg:     #3a1a1a; --badge-blocked-text:     #f87171;
+  --badge-done-bg:        #1a3a28; --badge-done-text:        #4ade80;
+  --badge-backlog-bg:     #1e2535; --badge-backlog-text:     #64748b;
+
+  /* Priority badge tokens */
+  --badge-high-bg:   #3a1a1a; --badge-high-text:   #f87171;
+  --badge-medium-bg: #3a2e1a; --badge-medium-text: #fbbf24;
+  --badge-low-bg:    #1a3a28; --badge-low-text:    #4ade80;
+}
+
+[data-theme="light"] {
+  --bg-base:     #f8fafc;
+  --bg-surface:  #ffffff;
+  --bg-elevated: #f1f5f9;
+  --bg-overlay:  #e2e8f0;
+
+  --border:      #e2e8f0;
+  --border-focus:#6366f1;
+
+  --text-primary:   #0f172a;
+  --text-secondary: #475569;
+  --text-muted:     #94a3b8;
+
+  --badge-todo-bg:        #f1f5f9; --badge-todo-text:        #475569;
+  --badge-in_progress-bg: #dbeafe; --badge-in_progress-text: #1d4ed8;
+  --badge-testing-bg:     #ede9fe; --badge-testing-text:     #7c3aed;
+  --badge-review-bg:      #fef3c7; --badge-review-text:      #92400e;
+  --badge-blocked-bg:     #fee2e2; --badge-blocked-text:     #b91c1c;
+  --badge-done-bg:        #dcfce7; --badge-done-text:        #15803d;
+  --badge-backlog-bg:     #f1f5f9; --badge-backlog-text:     #64748b;
+
+  --badge-high-bg:   #fee2e2; --badge-high-text:   #b91c1c;
+  --badge-medium-bg: #fef3c7; --badge-medium-text: #92400e;
+  --badge-low-bg:    #dcfce7; --badge-low-text:    #15803d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: Inter, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 a {
-  font-weight: 500;
-  color: #646cff;
+  color: inherit;
   text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
 }
 
 button {
   cursor: pointer;
+  font-family: inherit;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
 }

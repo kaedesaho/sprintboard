@@ -25,6 +25,12 @@ dist-ssr
 
 venv/
 .env
-schema.sql
 Postgres Local.session.sql
 __pycache__/
+# Private notes, resume, scratch SQL (not for the public repo)
+notes/
+Resume_*.pdf
+
+# Runtime/cache files
+backend/static/avatars/
+frontend/.vite/

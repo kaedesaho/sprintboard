@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Task, TaskStatus, TaskPriority } from "../types/task"
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import { ViewMode } from "../types/view";
@@ -35,13 +35,43 @@ interface TaskFormProps {
     view: ViewMode
 }
 
-const TaskForm = ({ 
+const darkSelectStyles = {
+    control: (base: any) => ({
+        ...base,
+        background: 'var(--bg-elevated)',
+        borderColor: 'var(--border)',
+        color: 'var(--text-primary)',
+        boxShadow: 'none',
+        '&:hover': { borderColor: 'var(--border-focus)' },
+    }),
+    menu: (base: any) => ({ ...base, background: 'var(--bg-elevated)', border: '1px solid var(--border)' }),
+    option: (base: any, state: any) => ({
+        ...base,
+        background: state.isFocused ? 'var(--bg-overlay)' : 'var(--bg-elevated)',
+        color: 'var(--text-primary)',
+    }),
+    multiValue: (base: any) => ({ ...base, background: 'var(--bg-overlay)' }),
+    multiValueLabel: (base: any) => ({ ...base, color: 'var(--text-primary)' }),
+    multiValueRemove: (base: any) => ({ ...base, color: 'var(--text-muted)', '&:hover': { background: 'var(--red)', color: '#fff' } }),
+    singleValue: (base: any) => ({ ...base, color: 'var(--text-primary)' }),
+    input: (base: any) => ({ ...base, color: 'var(--text-primary)' }),
+    placeholder: (base: any) => ({ ...base, color: 'var(--text-muted)' }),
+    indicatorSeparator: (base: any) => ({ ...base, background: 'var(--border)' }),
+    dropdownIndicator: (base: any) => ({ ...base, color: 'var(--text-muted)' }),
+    clearIndicator: (base: any) => ({ ...base, color: 'var(--text-muted)' }),
+};
+
+const TaskForm = ({
     mode, initialValues, tasks, categories, users, onSubmit, onDelete, onCategoryCreated, view
 }:TaskFormProps) => {
     const navigate = useNavigate();
     const { projectID } = useParams(); 
-    const formatDate = (date?: string | Date) =>
-    date ? (date instanceof Date ? date.toISOString().slice(0, 10) : date.slice(0, 10)) : "";
+    const formatDate = (date?: string | Date) => {
+        if (!date) return "";
+        if (date instanceof Date) return date.toISOString().slice(0, 10);
+        const parsed = new Date(date);
+        return isNaN(parsed.getTime()) ? "" : parsed.toISOString().slice(0, 10);
+    };
 
     const [form, setForm] = useState<TaskFormData>({
     title: initialValues?.title ?? "",
@@ -91,7 +121,7 @@ const TaskForm = ({
 
     return (
         <div className="task-form-container"
-        onClick={() => navigate(`/projects/${projectID}?view=${view}`)}>
+        onClick={() => navigate(-1)}>
             <form className="task-form" onSubmit={handleSubmit} onClick={e => e.stopPropagation()}>
                 <div className="task-form-left">
                     <label htmlFor="title">Title</label>
@@ -114,6 +144,7 @@ const TaskForm = ({
                     <Select
                     id="members"
                     isMulti
+                    styles={darkSelectStyles}
                     options={users.map(u => ({ value: u.id, label: u.username }))}
                     value={form.assignees?.map(id => ({ value: id, label: users.find(u => u.id === id)?.username }))}
                     onChange={selected => setForm({
@@ -151,9 +182,9 @@ const TaskForm = ({
                     )}
                 </div>
                 <div className="task-form-right">
-                    <Link to={`/projects/${projectID}?view=${view}`} className="cancel">
+                    <button type="button" className="cancel" onClick={() => navigate(-1)}>
                         <AiOutlineClose className="form-close"/>
-                    </Link>
+                    </button>
                     <div className="form-column">
                         <div className="form-column-left">
                             <label htmlFor="status">Status</label>
@@ -208,6 +239,7 @@ const TaskForm = ({
                     <Select
                     id="dependency"
                     isMulti
+                    styles={darkSelectStyles}
                     options={tasks
                         .filter(t => t.id !== initialValues?.id)
                         .map(t => ({ value: t.id, label: t.title}))}
@@ -221,6 +253,7 @@ const TaskForm = ({
                     <label htmlFor="category">Category</label>
                     <CreatableSelect
                     isMulti
+                    styles={darkSelectStyles}
                     options={categories?.map(c => ({ value: c.id, label: c.name })) ?? []}
                     value={form.category_ids
                         ?.map(id => {

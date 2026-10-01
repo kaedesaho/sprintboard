@@ -4,7 +4,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,14 +12,15 @@
 }
 
 .task-form {
-  background: #fff;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 20px 30px 30px;
   width: 90%;
   max-width: 760px;
   max-height: 80vh;
   overflow-y: auto;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: row;
   gap: 40px;
@@ -33,23 +34,29 @@
   border: none;
   font-size: 1.2rem;
   cursor: pointer;
-  color: #666;
+  color: var(--text-muted);
   transition: color 0.2s;
 }
 
 .cancel {
+  display: block;
   width: 100%;
   text-align: right;
   margin-bottom: -14px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  line-height: 1;
 }
 
 .form-close {
   font-size: 22px;
-  color: gray;
+  color: var(--text-muted);
 }
 
-.cancel :hover {
-  color: #000;
+.cancel:hover .form-close {
+  color: var(--text-primary);
 }
 
 .task-form-left {
@@ -99,7 +106,7 @@
 .task-form label {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #444;
+  color: var(--text-secondary);
   margin-top: 8px;
 }
 
@@ -109,21 +116,23 @@
   padding: 10px 12px;
   font-size: 0.9rem;
   border-radius: 8px;
-  border: 1px solid #d0d5dd;
-  background: #fff;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text-primary);
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .task-form textarea,
 .task-form select {
-  font-family: 'Arial', sans-serif;
+  font-family: inherit;
   box-sizing: border-box;
   width: 100%;
   padding: 10px 12px;
   font-size: 0.9rem;
   border-radius: 8px;
-  border: 1px solid #d0d5dd;
-  background: #fff;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text-primary);
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -139,14 +148,15 @@
 .task-form input:focus,
 .task-form textarea:focus,
 .task-form select:focus {
-  font-style: ;
   outline: none;
-  border-color: #6366f1;
+  border-color: var(--border-focus);
   box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
 }
 
 .task-form option {
   padding: 6px;
+  background: var(--bg-elevated);
+  color: var(--text-primary);
 }
 
 .form-log {
@@ -156,7 +166,7 @@
   height: 100%;
   font-size: 12px;
   font-weight: 570;
-  color: rgb(139, 139, 139);
+  color: var(--text-muted);
 }
 
 .form-log p {
@@ -174,7 +184,7 @@
   padding: 10px 16px;
   border-radius: 8px;
   border: none;
-  background: #6366f1;
+  background: var(--accent);
   color: white;
   font-weight: 600;
   cursor: pointer;
@@ -182,26 +192,26 @@
 }
 
 .task-form button[type="submit"]:hover {
-  background: #4f46e5;
+  background: var(--accent-hover);
 }
 
 .task-form button[type="submit"]:active {
   transform: translateY(1px);
 }
 
-.task-form button[type="button"] {
+.task-form button[type="button"]:not(.cancel) {
   padding: 10px 16px;
   border-radius: 8px;
-  border: 1px solid #ef4444;
-  background: #fff;
-  color: #ef4444;
+  border: 1px solid var(--red);
+  background: transparent;
+  color: var(--red);
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
 }
 
-.task-form button[type="button"]:hover {
-  background: #ef4444;
+.task-form button[type="button"]:not(.cancel):hover {
+  background: var(--red);
   color: white;
 }
 
@@ -211,6 +221,6 @@
 }
 
 .task-form::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--border);
   border-radius: 3px;
 }

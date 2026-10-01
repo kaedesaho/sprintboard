@@ -1,9 +1,23 @@
 .note-page {
-    max-width: 800px;
+    max-width: 1000px;
     width: 100%;
     margin: 30px auto;
-    padding: 0 20px;
 }
+
+.note-back-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    padding: 0;
+    margin-left: -12px;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+.note-back-btn:hover { color: var(--text-primary); }
 
 .note-page-header {
     display: flex;
@@ -19,7 +33,7 @@
     gap: 10px;
     font-size: 26px;
     font-weight: 700;
-    color: #222;
+    color: var(--text-primary);
     margin: 0 0 10px;
 }
 
@@ -27,8 +41,8 @@
     font-size: 11px;
     font-weight: 600;
     text-transform: capitalize;
-    background-color: #e8f0fe;
-    color: #4A90E2;
+    background-color: rgba(99, 102, 241, 0.15);
+    color: var(--accent-hover);
     padding: 3px 10px;
     border-radius: 10px;
     white-space: nowrap;
@@ -37,8 +51,8 @@
 .note-sprint-badge {
     font-size: 13px;
     font-weight: 600;
-    background-color: #e8f0fe;
-    color: #4A90E2;
+    background-color: rgba(99, 102, 241, 0.15);
+    color: var(--accent-hover);
     padding: 3px 10px;
     border-radius: 12px;
 }
@@ -48,7 +62,7 @@
     flex-wrap: wrap;
     gap: 12px;
     font-size: 14px;
-    color: #555;
+    color: var(--text-secondary);
 }
 
 .note-shared-badge {
@@ -59,13 +73,13 @@
 }
 
 .note-shared-badge.shared {
-    background-color: #d4edda;
-    color: #155724;
+    background-color: var(--badge-done-bg);
+    color: var(--badge-done-text);
 }
 
 .note-shared-badge.private {
-    background-color: #f1f1f1;
-    color: #666;
+    background-color: var(--bg-elevated);
+    color: var(--text-muted);
 }
 
 .note-page-actions {
@@ -79,16 +93,16 @@
     padding: 8px 20px;
     font-size: 14px;
     font-weight: 600;
-    color: #555;
-    border: 1px solid #ccc;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
     border-radius: 6px;
-    background: #fff;
+    background: var(--bg-elevated);
     cursor: pointer;
     transition: background-color 0.2s;
 }
 
 .btn-edit:hover {
-    background-color: #f0f0f0;
+    background-color: var(--bg-overlay);
 }
 
 .btn-delete {
@@ -96,7 +110,7 @@
     font-size: 14px;
     font-weight: 600;
     color: #fff;
-    background-color: #dc3545;
+    background-color: var(--red);
     border: none;
     border-radius: 6px;
     cursor: pointer;
@@ -104,19 +118,19 @@
 }
 
 .btn-delete:hover {
-    background-color: #c82333;
+    background-color: #dc2626;
 }
 
 .note-separator {
     border: none;
-    border-top: 1.5px solid lightgray;
+    border-top: 1px solid var(--border);
     margin: 16px 0 24px;
 }
 
 .note-content p {
     font-size: 15px;
     line-height: 1.7;
-    color: #333;
+    color: var(--text-secondary);
     white-space: pre-wrap;
 }
 
@@ -145,25 +159,26 @@
 .note-form-group label {
     font-size: 0.85rem;
     font-weight: 600;
-    color: #333;
+    color: var(--text-secondary);
 }
 
 .note-form-group input,
 .note-form-group select,
 .note-form-group textarea {
     padding: 9px 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border);
     border-radius: 6px;
     font-size: 0.95rem;
     font-family: inherit;
-    background: #fff;
+    background: var(--bg-elevated);
+    color: var(--text-primary);
 }
 
 .note-form-group input:focus,
 .note-form-group select:focus,
 .note-form-group textarea:focus {
     outline: none;
-    border-color: #4A90E2;
+    border-color: var(--border-focus);
 }
 
 .note-form-group textarea {
@@ -176,16 +191,17 @@
     gap: 8px;
     font-size: 0.9rem;
     cursor: pointer;
+    color: var(--text-secondary);
 }
 
 .note-form-error {
-    color: #dc3545;
+    color: var(--red);
     font-size: 0.875rem;
     margin: 0;
 }
 
 .required {
-    color: #dc3545;
+    color: var(--red);
 }
 
 .note-form-actions {
@@ -199,16 +215,16 @@
     padding: 10px 0;
     font-size: 14px;
     font-weight: 600;
-    color: #555;
-    border: 1px solid #ccc;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
     border-radius: 8px;
-    background: #fff;
+    background: var(--bg-elevated);
     cursor: pointer;
     transition: background-color 0.2s;
 }
 
 .btn-cancel:hover {
-    background-color: #f0f0f0;
+    background-color: var(--bg-overlay);
 }
 
 .btn-confirm {
@@ -217,7 +233,7 @@
     font-size: 14px;
     font-weight: 600;
     color: #fff;
-    background-color: #28a745;
+    background-color: var(--accent);
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -225,5 +241,5 @@
 }
 
 .btn-confirm:hover {
-    background-color: #218838;
+    background-color: var(--accent-hover);
 }

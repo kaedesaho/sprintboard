@@ -34,7 +34,9 @@ export function mapTasksToGanttTasks(
             
             styles: {
                 backgroundColor: priorityColor(task.priority),
-                progressColor: "#4f46e5",
+                backgroundSelectedColor: "#4f46e5",
+                progressColor: "#3730a3",
+                progressSelectedColor: "#312e81",
           },
         };
     });
@@ -42,13 +44,9 @@ export function mapTasksToGanttTasks(
 
 function priorityColor(priority?: "low" | "medium" | "high") {
   switch (priority) {
-    case "high":
-      return "#ef4444"; // red
-    case "medium":
-      return "#f59e0b"; // amber
-    case "low":
-      return "#10b981"; // green
-    default:
-      return "#6366f1"; // indigo
+    case "high":   return "#818cf8"; // indigo-400
+    case "medium": return "#6366f1"; // indigo-500
+    case "low":    return "#a5b4fc"; // indigo-300
+    default:       return "#6366f1";
   }
 }

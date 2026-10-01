@@ -1,52 +1,55 @@
-.dashboard {
-    max-width: 1000px;    
-    width: 100%;    
-    margin: 20px auto;        
+.my-projects {
+    max-width: 1400px;
+    width: 100%;
+    margin: 40px auto;
+    padding: 0 40px;
     display: flex;
     flex-direction: column;
 }
 
 .project-cards-masonry {
-  display: flex;  
+  display: flex;
   width: 100%;
 }
 
 .project-cards-column {
-  padding: 0 10px;   
+  padding: 0 10px;
   background-clip: padding-box;
 }
 
-.dashboard-header {
+.my-projects-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 10px;
 }
 
-.dashboard-header h1 {
+.my-projects-header h1 {
     font-size: 26px;
     font-weight: 700;
-    color: #222;
+    color: var(--text-primary);
     margin: 0;
 }
 
-.dashboard-separator {
-    width: 100% ;
+.my-projects-separator {
+    width: 100%;
     border: none;
-    border-top: 1.5px solid lightgray; 
-    margin-bottom: 30px;       
+    border-top: 1px solid var(--border);
+    margin-bottom: 30px;
 }
 
-.create-project-btn  {
+.create-project-btn {
     padding: 8px 20px;
-    background-color: #4A90E2;  
+    background-color: var(--accent);
     color: #fff;
     font-weight: 600;
     font-size: 16px;
     border-radius: 6px;
+    border: none;
+    transition: background-color 0.2s;
 }
 
 .create-project-btn:hover {
     color: #fff;
-    background-color: #357ABD;   
+    background-color: var(--accent-hover);
 }

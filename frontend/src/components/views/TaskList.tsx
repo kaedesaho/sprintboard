@@ -1,5 +1,4 @@
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import { Task } from "../../types/task"
 import { ViewMode } from "../../types/view"
 import { formatString } from "../../utils/format"
@@ -17,28 +16,32 @@ const allSprints = [1, 2, 3, 4];
 
 function TaskList({ tasks, projectID, view, curSprint }: TaskListProps) {
   const navigate = useNavigate();
-  const [sprintFilter, setSprintFilter] = useState<SprintFilter>("current");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const rawFilter = searchParams.get("sprint") ?? "current";
+  const sprintFilter: SprintFilter =
+    rawFilter === "current" || rawFilter === "previous" || rawFilter === "all"
+      ? rawFilter
+      : Number(rawFilter);
+
   const visibleTasks = filterBySprint(tasks, sprintFilter, curSprint);
 
   if (tasks.length === 0) return <p>No tasks found.</p>;
 
   const handleRowClick = (taskID: number) => {
-    navigate(`/projects/${projectID}/tasks/${taskID}?view=${view}`);
+    navigate(`/projects/${projectID}/tasks/${taskID}?view=${view}&sprint=${rawFilter}`);
+  };
+
+  const handleFilterChange = (value: string) => {
+    setSearchParams({ view, sprint: value });
   };
 
   return (
     <div className="task-table-container">
       <select
       className="list-filter"
-      value={sprintFilter}
-      onChange={(e) => {
-        const value = e.target.value;
-        setSprintFilter(
-          value === "current" || value === "previous" || value === "all"
-            ? (value as SprintFilter)
-            : Number(value)
-        );
-      }}
+      value={rawFilter}
+      onChange={(e) => handleFilterChange(e.target.value)}
       >
         <option value="current">Current Sprint</option>
         <option value="previous">Previous Sprints</option>

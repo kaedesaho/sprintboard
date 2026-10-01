@@ -1,0 +1,265 @@
+.project-settings {
+    max-width: 780px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Section card */
+.project-settings-section {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.project-settings-section h2 {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin: 0 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+}
+
+/* Form */
+.project-settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.project-settings-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.project-settings-field label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.project-settings-field input,
+.project-settings-field textarea {
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-family: inherit;
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+    resize: vertical;
+}
+
+.project-settings-field input:focus,
+.project-settings-field textarea:focus {
+    outline: none;
+    border-color: var(--border-focus);
+}
+
+/* Read-only value display */
+.project-settings-field p {
+    margin: 0;
+    padding: 8px 10px;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+}
+
+/* Feedback */
+.project-settings-feedback {
+    font-size: 0.825rem;
+    padding: 7px 10px;
+    border-radius: 6px;
+    margin: 0;
+}
+
+.project-settings-feedback.success {
+    color: #86efac;
+    background: rgba(34, 197, 94, 0.12);
+    border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+.project-settings-feedback.error {
+    color: #fca5a5;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+/* Save button */
+.project-settings-save-btn {
+    align-self: flex-end;
+    padding: 8px 20px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: inherit;
+}
+
+.project-settings-save-btn:hover {
+    background: var(--accent-hover);
+}
+
+.project-settings-save-btn:disabled {
+    background: var(--text-muted);
+    cursor: default;
+}
+
+/* Read-only layout */
+.project-settings-readonly {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Members search */
+.project-settings-member-search {
+    position: relative;
+}
+
+.project-settings-member-search input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-family: inherit;
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+}
+
+.project-settings-member-search input:focus {
+    outline: none;
+    border-color: var(--border-focus);
+}
+
+.project-settings-search-results {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    z-index: 50;
+    list-style: none;
+    margin: 0;
+    padding: 4px 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.project-settings-search-results li {
+    padding: 8px 12px;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+.project-settings-search-results li:hover {
+    background: var(--bg-overlay);
+}
+
+/* Members list */
+.project-settings-members-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.project-settings-member-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+}
+
+.project-settings-member-remove {
+    color: var(--text-muted);
+    cursor: pointer;
+    flex-shrink: 0;
+    font-size: 14px;
+}
+
+.project-settings-member-remove:hover {
+    color: #fca5a5;
+}
+
+.project-settings-member-name {
+    flex: 1;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+}
+
+.project-settings-role-btn {
+    padding: 3px 10px;
+    font-size: 0.775rem;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg-surface);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s;
+}
+
+.project-settings-role-btn:hover:not(:disabled) {
+    background: var(--bg-overlay);
+}
+
+.project-settings-role-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+/* Danger zone */
+.project-settings-danger {
+    border-color: rgba(239, 68, 68, 0.35);
+}
+
+.project-settings-danger h2 {
+    color: #f87171;
+    border-bottom-color: rgba(239, 68, 68, 0.2);
+}
+
+.project-settings-danger p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin: 0 0 14px;
+}
+
+.project-settings-delete-btn {
+    padding: 8px 18px;
+    background: transparent;
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    border-radius: 6px;
+    color: #f87171;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s;
+}
+
+.project-settings-delete-btn:hover {
+    background: rgba(239, 68, 68, 0.12);
+}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useSearchParams } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 import BackLog from "./views/Backlog"
 import KanbanBoard from "./views/Kanban/KanbanBoard"
 import TaskList from "./views/TaskList"
@@ -47,68 +47,58 @@ function ProjectTasks({ projectID, curSprint }: Props) {
 
     return (
         <div className="project-tasks">
-            <div className="view-btn">
-                <button
-                onClick={() => switchView("gantt")}
-                disabled={view === "gantt"}
-                >
-                Gantt Chart
-                </button>
-
-                <button
-                onClick={() => switchView("kanban")}
-                disabled={view === "kanban"}
-                >
-                Kanban Board
-                </button>
-
-                <button
-                onClick={() => switchView("list")}
-                disabled={view === "list"}
-                >
-                List
-                </button>
-
-                <button
-                onClick={() => switchView("backlog")}
-                disabled={view === "backlog"}
-                >
-                Backlog
-                </button>
+            <div className="project-tasks-header">
+                <div className="view-btn">
+                    <button onClick={() => switchView("gantt")} disabled={view === "gantt"}>
+                        Gantt
+                    </button>
+                    <button onClick={() => switchView("kanban")} disabled={view === "kanban"}>
+                        Kanban
+                    </button>
+                    <button onClick={() => switchView("list")} disabled={view === "list"}>
+                        List
+                    </button>
+                    <button onClick={() => switchView("backlog")} disabled={view === "backlog"}>
+                        Backlog
+                    </button>
+                </div>
+                <Link to={`/projects/${projectID}/tasks/create?view=${view}`} className="create-task-btn">
+                    Create Task
+                </Link>
             </div>
 
             {view === "gantt" && (
                 <GanttChart
                 tasks={tasks}
-                projectID={projectID} 
+                projectID={projectID}
                 view={view}
                 curSprint={curSprint}
                 />
             )}
 
-            {view === "kanban" && ( 
-                <KanbanBoard 
-                projectID={projectID} 
-                tasks={tasks.filter((t => t.sprint == curSprint))} 
-                view={view} 
-                setTasks={setTasks} 
+            {view === "kanban" && (
+                <KanbanBoard
+                projectID={projectID}
+                tasks={tasks.filter((t => t.sprint == curSprint))}
+                view={view}
+                setTasks={setTasks}
                 />
             )}
 
             {view === "list" && (
-                <TaskList 
-                projectID={projectID} 
-                tasks={tasks} 
-                view={view} 
+                <TaskList
+                projectID={projectID}
+                tasks={tasks}
+                view={view}
                 curSprint={curSprint}
                 />
             )}
 
             {view === "backlog" && (
-                <BackLog 
-                projectID={projectID} 
-                tasks={tasks.filter(t => t.status == "backlog")} 
-                view={view} 
+                <BackLog
+                projectID={projectID}
+                tasks={tasks.filter(t => t.status == "backlog")}
+                view={view}
                 />
             )}
 

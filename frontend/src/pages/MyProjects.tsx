@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import Masonry from "react-masonry-css";
 import ProjectCard from "../components/ProjectCard";
 import { Project } from "../types/project";
-import { useAuth } from "../context/AuthContext"; 
-import "./Dashboard.css";
+import { useAuth } from "../context/AuthContext";
+import "./MyProjects.css";
 
 
-const Dashboard = () => {
+const MyProjects = () => {
     const { userID } = useAuth()
     const [projects, setProjects] = useState<Project[]>([]);
     const [loading, setLoading] = useState(true)
@@ -39,27 +39,27 @@ const Dashboard = () => {
     }, [userID]);
 
     const breakpointColumnsObj = {
-    default: 2, 
-  768: 1,     // tablet
+    default: 2,
+  768: 1,
   };
 
     if (loading) return <p>Loading projects...</p>;
 
     return (
-        <div className="dashboard">
-            <div className="dashboard-header">
+        <div className="my-projects">
+            <div className="my-projects-header">
                 <h1>My Projects</h1>
                 <Link to="/create-project" className="create-project-btn">Create New Project</Link>
             </div>
 
-            <hr className="dashboard-separator" />
+            <hr className="my-projects-separator" />
             {projects.length == 0 ? (
                 <p>No projects found</p>
             ) : (
                 <Masonry
                 breakpointCols={breakpointColumnsObj}
-                className="project-cards-masonry" 
-                columnClassName="project-cards-column" 
+                className="project-cards-masonry"
+                columnClassName="project-cards-column"
                 >
                 {projects.map((project) => (
                     <ProjectCard key={project.id} project={project} />
@@ -70,4 +70,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default MyProjects;

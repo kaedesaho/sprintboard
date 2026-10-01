@@ -95,8 +95,8 @@ const TaskPage = ( { mode }: TaskProps) => {
 
         const createdTask = await res.json();
         console.log("Task created:", createdTask);
-        navigate(`/projects/${projectID}?view=${view}`);
-            
+        navigate(-1);
+
         } catch (err: any) {
             console.error("Task creation failed:", err);
             setError(err.message); 
@@ -115,7 +115,7 @@ const TaskPage = ( { mode }: TaskProps) => {
         );
 
         if (!res.ok) throw new Error("Delete failed");
-        navigate(`/projects/${projectID}?view=${view}`);
+        navigate(-1);
 
         } catch (err) {
         console.error(err);

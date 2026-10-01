@@ -130,6 +130,9 @@ const NotePage = () => {
   return (
     <div className="note-page">
       <div className="note-page-header">
+        <button className="note-back-btn" onClick={() => navigate(`/projects/${projectID}/notes`)}>
+          ← Back
+        </button>
         <div className="note-page-header-left">
           <h1>
             {note.title}

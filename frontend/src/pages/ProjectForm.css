@@ -2,22 +2,24 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: calc(100vh - 60px);
+    height: 100vh;
 }
 
 .project-form-container {
     width: 100%;
     max-width: 400px;
     padding: 30px;
-    background-color: #ffffff;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border);
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
 }
 
 .project-form-container h1 {
     font-size: 2rem;
     margin: 0;
     margin-bottom: 25px;
+    color: var(--text-primary);
 }
 
 .project-form {
@@ -30,22 +32,24 @@
     font-size: 0.9rem;
     font-weight: 600;
     text-align: left;
-    font-family: 'Arial', sans-serif;
-    
+    color: var(--text-secondary);
 }
 
 .project-form input,
 .project-form textarea {
     padding: 10px;
     border-radius: 6px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border);
     font-size: 1rem;
-    font-family: 'Arial', sans-serif;
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+    font-family: inherit;
 }
 
 .project-form input:focus,
 .project-form textarea:focus {
-    border-color: #007bff;
+    outline: none;
+    border-color: var(--border-focus);
 }
 
 .member-search-container {
@@ -58,22 +62,21 @@
     box-sizing: border-box;
 }
 
-
 .search-results {
     list-style: none;
     margin: 0;
     padding: 0.25rem 0;
     position: absolute;
-    top: 100%; /* right below the input */
+    top: 100%;
     left: 0;
     right: 0;
     max-height: 200px;
     overflow-y: auto;
-    background-color: #fafafa;
-    border: 1px solid #ddd;
+    background-color: var(--bg-elevated);
+    border: 1px solid var(--border);
     border-radius: 8px;
     z-index: 10;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
 }
 
 .search-results li {
@@ -81,10 +84,11 @@
     cursor: pointer;
     transition: background-color 0.2s;
     text-align: left;
+    color: var(--text-primary);
 }
 
 .search-results li:hover {
-    background-color: #e0e0e0;
+    background-color: var(--bg-overlay);
 }
 
 .selected-users {
@@ -98,14 +102,16 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background-color: #f1f1f1;
+    background-color: var(--bg-overlay);
     padding: 0.25rem 0.5rem;
     border-radius: 8px;
     font-size: 0.9rem;
+    color: var(--text-primary);
+    border: 1px solid var(--border);
 }
 
 .selected-user button {
-    background-color: #007bff;
+    background-color: var(--accent);
     color: #fff;
     border: none;
     padding: 0.25rem 0.5rem;
@@ -115,23 +121,23 @@
 }
 
 .selected-user button:hover:not(:disabled) {
-    background-color: #0056b3;
+    background-color: var(--accent-hover);
 }
 
 .selected-user button:disabled {
-    background-color: #aaa;
+    background-color: var(--text-muted);
     cursor: default;
 }
 
 .remove-btn {
-    color: #ff4d4f;
+    color: var(--red);
     cursor: pointer;
     font-size: 1rem;
     transition: color 0.2s;
 }
 
 .remove-btn:hover {
-    color: #d9363e;
+    color: #dc2626;
 }
 
 /* Form buttons */
@@ -142,26 +148,26 @@
     margin-top: 1rem;
 }
 
-
 .form-buttons .cancel {
     width: 180px;
     font-size: 14px;
-    color: #555;
+    color: var(--text-secondary);
     font-weight: 600;
     padding: 10px 0px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border);
     border-radius: 8px;
-    transition: background-color 0.2s, color 0.2s;
+    background: var(--bg-elevated);
+    transition: background-color 0.2s;
 }
 
 .form-buttons .cancel:hover {
-    background-color: #f0f0f0;
-    color: #000;
+    background-color: var(--bg-overlay);
+    color: var(--text-primary);
 }
 
 .form-buttons .confirm {
     width: 180px;
-    background-color: #28a745;
+    background-color: var(--accent);
     font-size: 14px;
     color: #fff;
     border: none;
@@ -172,14 +178,14 @@
     transition: background-color 0.2s;
 }
 
-.form-buttons .confirm {
-    background-color: #218838;
+.form-buttons .confirm:hover {
+    background-color: var(--accent-hover);
 }
 
 /* Delete button */
 .project-form > button[type="button"] {
     margin-top: 1rem;
-    background-color: #dc3545;
+    background-color: var(--red);
     color: #fff;
     border: none;
     padding: 10px 0px;
@@ -190,5 +196,5 @@
 }
 
 .project-form > button[type="button"]:hover {
-    background-color: #c82333;
+    background-color: #dc2626;
 }

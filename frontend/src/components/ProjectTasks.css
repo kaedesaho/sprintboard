@@ -1,33 +1,48 @@
 .project-tasks {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
+/* Header row: view switcher + create button */
+.project-tasks-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+/* Segmented control */
 .view-btn {
     display: flex;
-    gap: 8px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 3px;
+    gap: 2px;
 }
 
 .view-btn button {
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 600;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background-color: white;
-  color: #555555;
-  cursor: pointer;
-  transition: all 0.2s ease;
+    padding: 5px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s, color 0.15s;
 }
 
 .view-btn button:hover:not(:disabled) {
-  background-color: #f0f0f0;
-  border-color: #999;
+    background: var(--bg-overlay);
+    color: var(--text-primary);
 }
 
 .view-btn button:disabled {
-  background-color: #4a90e2; 
-  border-color: #4a90e2;
-  color: white;
-  cursor: default;
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    font-weight: 600;
+    cursor: default;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }

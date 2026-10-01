@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
+import DemoLoginButton from "../components/DemoLoginButton";
 import "./Auth.css";
 
 const Login = () => {
@@ -61,6 +62,8 @@ const Login = () => {
                 <button type="submit">Log in</button>
                 <Link to="/signup" className="auth-link">Don't have an account?</Link>
             </form>
+            <div className="auth-divider"><span>or</span></div>
+            <DemoLoginButton />
         </div>
     </div>
     );

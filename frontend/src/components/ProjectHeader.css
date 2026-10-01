@@ -1,0 +1,63 @@
+.project-header {
+    padding: 20px 40px 0;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+}
+
+.project-header-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.project-header-sprint {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 2px 10px;
+    white-space: nowrap;
+}
+
+.project-header-tooltip {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.project-header-info-icon {
+    font-size: 18px;
+    color: var(--text-muted);
+}
+
+.project-header-tooltip-text {
+    visibility: hidden;
+    width: 220px;
+    background-color: var(--bg-overlay);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    text-align: left;
+    border-radius: 6px;
+    padding: 10px;
+    position: absolute;
+    z-index: 100;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 13px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    white-space: normal;
+    pointer-events: none;
+}
+
+.project-header-tooltip:hover .project-header-tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+

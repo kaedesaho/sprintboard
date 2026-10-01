@@ -7,6 +7,9 @@ from db import get_db
 
 users_bp = Blueprint("users_bp", __name__)
 
+# Account used by the "Try the demo" button; created by seed_demo.py
+DEMO_USERNAME = "demo"
+
 @users_bp.route("/signup", methods=["POST"])
 def signup():
     data = request.json
@@ -110,6 +113,36 @@ def login():
             "success": False,
             "error": "Server error"
         }), 500
+
+    finally:
+        cur.close()
+        conn.close()
+
+
+@users_bp.route("/demo-login", methods=["POST"])
+def demo_login():
+    conn = get_db()
+    cur = conn.cursor(cursor_factory=RealDictCursor)
+
+    try:
+        cur.execute(
+            "SELECT id, username, photo_url FROM users WHERE username = %s",
+            (DEMO_USERNAME,)
+        )
+        user = cur.fetchone()
+
+        if not user:
+            return jsonify({
+                "success": False,
+                "error": "Demo account is not set up. Run seed_demo.py."
+            }), 503
+
+        return jsonify({
+            "success": True,
+            "id": user["id"],
+            "username": user["username"],
+            "photo_url": user["photo_url"]
+        }), 200
 
     finally:
         cur.close()

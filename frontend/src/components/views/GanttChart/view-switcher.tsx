@@ -13,8 +13,8 @@ export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({
   isChecked,
 }) => {
   return (
-    <div className="view-switcher">
-        <div className="Switch">
+    <>
+      <div className="Switch">
         <label className="Switch_Toggle">
           <input
             type="checkbox"
@@ -27,13 +27,11 @@ export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({
       </div>
       <select
         className="filter-dropdown"
-        onChange={(e) =>
-          onViewModeChange(e.target.value as ViewMode)
-        }
+        onChange={(e) => onViewModeChange(e.target.value as ViewMode)}
       >
         <option value={ViewMode.Day}>Day</option>
         <option value={ViewMode.Week}>Week</option>
       </select>
-    </div>
+    </>
   );
 };

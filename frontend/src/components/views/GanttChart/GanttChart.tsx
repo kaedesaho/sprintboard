@@ -123,6 +123,12 @@ function GanttChart ({ tasks, projectID, view, curSprint }: GanChartProps) {
         onExpanderClick={handleExpanderClick}
         listCellWidth={showTaskList ? "155px" : ""}
         columnWidth={columnWidth}
+        barCornerRadius={6}
+        rowHeight={44}
+        barFill={72}
+        todayColor="rgba(99, 102, 241, 0.12)"
+        arrowColor="#6366f1"
+        arrowIndent={20}
       />
       ) : (
         <p>No tasks to display</p>

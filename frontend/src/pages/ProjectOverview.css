@@ -14,8 +14,8 @@
 }
 
 .overview-card {
-    background: #fff;
-    border: 1px solid #e5e7eb;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
     border-radius: 10px;
     padding: 20px;
 }
@@ -23,13 +23,13 @@
 .overview-card h2 {
     font-size: 1rem;
     font-weight: 600;
-    color: #111827;
+    color: var(--text-primary);
     margin: 0 0 16px;
 }
 
 /* Sprint Progress */
 .sprint-progress-bar-wrap {
-    background: #f3f4f6;
+    background: var(--bg-elevated);
     border-radius: 999px;
     height: 10px;
     overflow: hidden;
@@ -37,7 +37,7 @@
 }
 
 .sprint-progress-bar-fill {
-    background: #4f46e5;
+    background: var(--accent);
     height: 100%;
     border-radius: 999px;
     transition: width 0.3s ease;
@@ -45,7 +45,7 @@
 
 .sprint-progress-label {
     font-size: 0.8rem;
-    color: #6b7280;
+    color: var(--text-muted);
     margin-bottom: 12px;
 }
 
@@ -68,15 +68,16 @@
     gap: 8px;
     padding: 8px 10px;
     border-radius: 6px;
-    background: #f9fafb;
-    border: 1px solid #e5e7eb;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
     font-size: 0.875rem;
-    color: #111827;
+    color: var(--text-primary);
     text-decoration: none;
+    transition: background-color 0.15s;
 }
 
 .overview-task-item:hover {
-    background: #f3f4f6;
+    background: var(--bg-overlay);
 }
 
 .overview-task-title {
@@ -88,13 +89,13 @@
 
 .overview-task-date {
     font-size: 0.75rem;
-    color: #ef4444;
+    color: var(--red);
     white-space: nowrap;
 }
 
 .overview-empty {
     font-size: 0.85rem;
-    color: #9ca3af;
+    color: var(--text-muted);
     text-align: center;
     padding: 12px 0;
 }
@@ -111,18 +112,18 @@
 }
 
 /* Status badges */
-.badge-todo        { background: #e5e7eb; color: #374151; }
-.badge-in_progress { background: #dbeafe; color: #1d4ed8; }
-.badge-testing     { background: #ede9fe; color: #7c3aed; }
-.badge-review      { background: #fef3c7; color: #92400e; }
-.badge-blocked     { background: #fee2e2; color: #b91c1c; }
-.badge-done        { background: #d1fae5; color: #065f46; }
-.badge-backlog     { background: #f3f4f6; color: #6b7280; }
+.badge-todo        { background: var(--badge-todo-bg);        color: var(--badge-todo-text); }
+.badge-in_progress { background: var(--badge-in_progress-bg); color: var(--badge-in_progress-text); }
+.badge-testing     { background: var(--badge-testing-bg);     color: var(--badge-testing-text); }
+.badge-review      { background: var(--badge-review-bg);      color: var(--badge-review-text); }
+.badge-blocked     { background: var(--badge-blocked-bg);     color: var(--badge-blocked-text); }
+.badge-done        { background: var(--badge-done-bg);        color: var(--badge-done-text); }
+.badge-backlog     { background: var(--badge-backlog-bg);     color: var(--badge-backlog-text); }
 
 /* Priority badges */
-.badge-high   { background: #fee2e2; color: #b91c1c; }
-.badge-medium { background: #fef3c7; color: #92400e; }
-.badge-low    { background: #d1fae5; color: #065f46; }
+.badge-high   { background: var(--badge-high-bg);   color: var(--badge-high-text); }
+.badge-medium { background: var(--badge-medium-bg); color: var(--badge-medium-text); }
+.badge-low    { background: var(--badge-low-bg);    color: var(--badge-low-text); }
 
 @media (max-width: 700px) {
     .overview-grid {
