@@ -118,7 +118,9 @@ const ProjectSettings = () => {
             });
             const data = await res.json();
             if (data.success) {
-                setProject({ ...project, title, description, cur_sprint: Number(curSprint) });
+                // Reload so the header and other pages show exactly what was saved
+                const updated = await fetch(`http://127.0.0.1:5000/api/projects/${project.id}?user_id=${userID}`);
+                if (updated.ok) setProject(await updated.json());
                 setMsg({ text: 'Project updated successfully.', type: 'success' });
             } else {
                 setMsg({ text: data.error || 'Failed to update project.', type: 'error' });

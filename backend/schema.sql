@@ -56,7 +56,7 @@ CREATE TABLE tasks (
     time_estimation INT,              
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    project_id INT REFERENCES projects(id) NOT NULL
+    project_id INT REFERENCES projects(id) ON DELETE CASCADE NOT NULL
     );
 
 --Checked
@@ -84,7 +84,7 @@ CREATE task_assignees (
 CREATE TABLE categories (
     id SERIAL PRIMARY KEY,
     name VARCHAR NOT NULL UNIQUE 
-    project_id INT REFERENCES projects(id) NOT NULL  
+    project_id INT REFERENCES projects(id) ON DELETE CASCADE NOT NULL
 );
 
 --Checked

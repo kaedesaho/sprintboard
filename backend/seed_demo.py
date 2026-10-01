@@ -156,10 +156,7 @@ def delete_demo_projects(cur, demo_ids):
     project_ids = [r["project_id"] for r in cur.fetchall()]
     if not project_ids:
         return 0
-    # tasks/notes/categories reference projects without ON DELETE CASCADE
-    cur.execute("DELETE FROM tasks WHERE project_id = ANY(%s)", (project_ids,))
-    cur.execute("DELETE FROM notes WHERE project_id = ANY(%s)", (project_ids,))
-    cur.execute("DELETE FROM categories WHERE project_id = ANY(%s)", (project_ids,))
+    # Tasks, notes, categories, and members are removed by ON DELETE CASCADE
     cur.execute("DELETE FROM projects WHERE id = ANY(%s)", (project_ids,))
     return len(project_ids)
 

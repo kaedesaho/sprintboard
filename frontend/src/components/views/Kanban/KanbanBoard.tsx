@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react"
-import { BoardData, ColumnData } from "./types"
+import type { BoardData } from "./types"
 import Column from "./Column"
 import buildBoardData from "./BoardData"
-import { ViewMode } from "../../../types/view"
-import { Task, TaskStatus } from "../../../types/task"
-import { DragDropContext, Droppable, DropResult, Draggable } from "@hello-pangea/dnd"
+import type { ViewMode } from "../../../types/view"
+import type { Task, TaskStatus } from "../../../types/task"
+import { DragDropContext, type DropResult } from "@hello-pangea/dnd"
 import "./Kanban.css"
 
 type KanbanBoardProps = {
@@ -23,70 +23,23 @@ function KanbanBoard({ projectID, tasks: tasksProp, view, setTasks}: KanbanBoard
 
   const onDragEnd = (result: DropResult) => {
     const { destination, source, draggableId } = result
-    if (!destination) return
+    // Columns are sorted by priority, so dropping within the same column changes nothing
+    if (!destination || destination.droppableId === source.droppableId) return
 
-    const startColumn = board.columns[source.droppableId]
-    const finishColumn = board.columns[destination.droppableId]
+    const newStatus = destination.droppableId as TaskStatus
+    const moveTask = (task: Task): Task =>
+      task.id.toString() === draggableId ? { ...task, status: newStatus } : task
 
-    let updatedBoard: BoardData = { ...board };
+    // Rebuild immediately so the card lands in its priority spot without flickering
+    setBoard(buildBoardData(tasksProp.map(moveTask)))
+    setTasks((prev) => prev.map(moveTask))
 
-    if (startColumn === finishColumn) {
-      // Move within same column
-      const newTaskIds = Array.from(startColumn.taskIds)
-      newTaskIds.splice(source.index, 1)
-      newTaskIds.splice(destination.index, 0, draggableId)
-
-      const newColumn = { ...startColumn, taskIds: newTaskIds }
-
-      updatedBoard =({
-        ...board,
-        columns: {
-          ...board.columns,
-          [newColumn.id]: newColumn,
-        },
-      })
-      setBoard(updatedBoard);
-    } else {
-      // Move to different column
-      const startTaskIds = Array.from(startColumn.taskIds)
-      startTaskIds.splice(source.index, 1)
-      const newStart = { ...startColumn, taskIds: startTaskIds }
-
-      const finishTaskIds = Array.from(finishColumn.taskIds)
-      finishTaskIds.splice(destination.index, 0, draggableId)
-      const newFinish = { ...finishColumn, taskIds: finishTaskIds }
-
-      updatedBoard = {
-        ...board,
-        columns: {
-          ...board.columns,
-          [newStart.id]: newStart,
-          [newFinish.id]: newFinish,
-        },
-      };
-
-      setBoard(updatedBoard);
-
-      setTasks((prev: Task[]): Task[] =>
-        prev.map((task: Task) =>
-          task.id.toString() === draggableId
-            ? { ...task, status: finishColumn.id as TaskStatus}
-            : task
-        )
-      );
-
-      fetch(`http://127.0.0.1:5000/api/tasks/${draggableId}/move`, {
+    fetch(`http://127.0.0.1:5000/api/tasks/${draggableId}/move`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status: finishColumn.id }),
-      })
-      .then(res => res.json())
-      .then(data => {
-        console.log("Task moved:", data) 
-      })
+      body: JSON.stringify({ status: newStatus }),
+    })
       .catch((err) => console.error("Failed to update task:", err))
-    
-    }
   };
 
   return (

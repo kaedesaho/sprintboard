@@ -7,7 +7,7 @@ A full-stack project management web app for organizing sprints, tracking tasks, 
 ## Features
 
 - **Four task views** — Kanban board, Gantt chart, List, and Backlog
-- **Drag-and-drop** reordering and status changes on the Kanban board
+- **Kanban board** — drag cards between columns to change status; each column is sorted by priority (high → low)
 - **Project Overview dashboard** — sprint progress bar, your assigned tasks, overdue tasks, and blocked/high-priority items
 - **Sprint-based task management** — filter and track work by sprint number
 - **Rich task fields** — status, priority, assignees, due dates, time estimate, dependencies, and categories

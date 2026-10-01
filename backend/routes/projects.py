@@ -138,8 +138,17 @@ def edit_project(project_id):
     data = request.get_json()
     title = data["title"]
     description = data.get("description", "")
-    cur_sprint = data.get("cur_sprint", "")
+    cur_sprint = data.get("cur_sprint")
     members = data.get("members", [])
+
+    # Blank sprint means "not set"; anything else must be a whole number
+    if cur_sprint in ("", None):
+        cur_sprint = None
+    else:
+        try:
+            cur_sprint = int(cur_sprint)
+        except (TypeError, ValueError):
+            return jsonify({"success": False, "error": "Current sprint must be a whole number"}), 400
 
     conn = get_db()
     cur = conn.cursor(cursor_factory=RealDictCursor)

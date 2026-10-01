@@ -68,7 +68,7 @@ const Notes = () => {
 
     const visibleNotes = notes
         .filter(note => {
-            if (tab === 'my') return !note.is_shared || note.creator_id === userID;
+            if (tab === 'my') return note.creator_id === userID;
             return note.is_shared;
         })
         .filter(note => !filterType || note.note_type === filterType)
