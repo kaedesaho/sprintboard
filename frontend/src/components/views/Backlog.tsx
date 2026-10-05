@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Task } from "../../types/task"
-import { ViewMode } from "../../types/view";
+import { type Task } from "../../types/task"
+import { type ViewMode } from "../../types/view";
 import { formatString } from "../../utils/format";
 import "./TaskList.css"
 

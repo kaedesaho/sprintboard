@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import Masonry from "react-masonry-css";
-import { Note, NoteType } from '../types/note';
+import { type Note, type NoteType } from '../types/note';
 import NoteCard from "../components/NoteCard";
 import { useAuth } from "../context/AuthContext";
 import "./Notes.css";

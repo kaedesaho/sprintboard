@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import DeleteProjectModal from "../components/DeleteProject";
 import { useAuth } from "../context/AuthContext"; 
 import { AiOutlineClose } from "react-icons/ai";
@@ -144,15 +144,14 @@ const ProjectForm = ( { mode }: { mode:Mode } ) => {
                 })
             });
 
-            if (!res.ok) throw new Error("Failed to create project");
-
             const data = await res.json();
-            console.log("Project created:", data);
-            if (!data.success) throw new Error(data.error || "Project creation failed");
+            if (!res.ok || !data.success) throw new Error(data.error || "Failed to save project");
+            setError("");
             navigate(`/projects/${data.project_id}`);
 
         } catch (err) {
             console.error(err);
+            setError(err instanceof Error ? err.message : "Failed to save project");
         }
     };
 

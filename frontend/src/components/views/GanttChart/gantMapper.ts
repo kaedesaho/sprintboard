@@ -1,5 +1,5 @@
-import { Task as AppTask } from "../../../types/task"
-import { Task as GanttTask } from "gantt-task-react";
+import { type Task as AppTask } from "../../../types/task"
+import { type Task as GanttTask } from "gantt-task-react";
 
 const statusToProgress: Record<string, number> = {
   backlog: 0,
@@ -19,8 +19,9 @@ export function mapTasksToGanttTasks(
     .filter(task => sprint === undefined || task.sprint === sprint)
     .filter(task => task.start_date && task.end_date)
     .map((task): GanttTask => {
-        const start = task.start_date ? new Date(task.start_date) : new Date();
-        const end = task.end_date ? new Date(task.end_date) : new Date(start.getTime() + 3600 * 1000); // +1h fallback
+        const start = parseDay(task.start_date!);
+        // End date is inclusive, so the bar runs to the end of that day
+        const end = addDays(parseDay(task.end_date!), 1);
 
         return {
             id: task.id.toString(),
@@ -49,4 +50,35 @@ function priorityColor(priority?: "low" | "medium" | "high") {
     case "low":    return "#a5b4fc"; // indigo-300
     default:       return "#6366f1";
   }
+}
+
+// The API sends dates as midnight UTC; use that calendar day at local midnight
+// so bars line up with the chart's day columns.
+function parseDay(value: string): Date {
+  const d = new Date(value);
+  return new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+}
+
+function addDays(date: Date, days: number): Date {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate() + days);
+}
+
+// Nearest local midnight; drags move in 24h steps, which can land an hour off
+// midnight when crossing a daylight-saving change
+function roundToDay(date: Date): Date {
+  return addDays(date, date.getHours() >= 12 ? 1 : 0);
+}
+
+// Formats as YYYY-MM-DD for the API
+function toDayString(d: Date): string {
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
+// Converts a dragged bar back to the task's start/end dates
+export function ganttDatesToTaskDates(start: Date, end: Date) {
+  return {
+    start_date: toDayString(roundToDay(start)),
+    end_date: toDayString(addDays(roundToDay(end), -1)),
+  };
 }

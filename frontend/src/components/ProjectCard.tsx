@@ -1,6 +1,5 @@
-import { AiOutlineInfoCircle, AiOutlineEdit, AiOutlineClockCircle, AiOutlineTeam } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
-import { Project } from '../types/project';
+import { type Project } from '../types/project';
 import './ProjectCard.css';
 
 interface ProjectCardProps {

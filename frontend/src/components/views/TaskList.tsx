@@ -1,8 +1,8 @@
 import { useNavigate, useSearchParams } from "react-router-dom"
-import { Task } from "../../types/task"
-import { ViewMode } from "../../types/view"
+import { type Task } from "../../types/task"
+import { type ViewMode } from "../../types/view"
 import { formatString } from "../../utils/format"
-import { SprintFilter, filterBySprint } from "./TaskFilter"
+import { type SprintFilter, filterBySprint } from "./TaskFilter"
 import "./TaskList.css"
 
 type TaskListProps = {

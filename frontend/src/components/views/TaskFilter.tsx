@@ -1,4 +1,4 @@
-import { Task } from "../../types/task";
+import { type Task } from "../../types/task";
 
 export type SprintFilter =
   | "current"
@@ -22,7 +22,7 @@ export function filterBySprint(
 
     case "previous":
       return tasks.filter(
-        t => t.sprint < currentSprint
+        t => t.sprint != null && t.sprint < currentSprint
       );
 
     default:

@@ -1,8 +1,8 @@
 import TaskCard from "./TaskCard"
-import { ColumnData as ColumnType } from "./types"
-import { Task } from "../../../types/task"
+import { type ColumnData as ColumnType } from "./types"
+import { type Task } from "../../../types/task"
 import { Draggable, Droppable } from "@hello-pangea/dnd"
-import { ViewMode } from "../../../types/view"
+import { type ViewMode } from "../../../types/view"
 import "./Kanban.css"
 
 type ColumnProps = {

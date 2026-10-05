@@ -1,7 +1,30 @@
-/Library/PostgreSQL/18/bin/psql -U postgres -d planflow_db
+-- SprintBoard database schema
+-- Usage: psql -U postgres -d sprintboard_db -f backend/schema.sql
 
+-- Types
 
---Checked
+CREATE TYPE task_priority AS ENUM ('low', 'medium', 'high');
+
+CREATE TYPE task_status AS ENUM (
+    'backlog',
+    'todo',
+    'in_progress',
+    'testing',
+    'review',
+    'blocked',
+    'done'
+);
+
+CREATE TYPE note_type_enum AS ENUM (
+    'meeting',
+    'retrospective',
+    'personal',
+    'task-related',
+    'documentation'
+);
+
+-- Tables
+
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
@@ -13,69 +36,37 @@ CREATE TABLE users (
 );
 
 CREATE TABLE projects (
-    id integer NOT NULL,
-    title character varying(255) NOT NULL,
-    description text,
-    last_updated timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    cur_sprint INT,
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE project_members (
-    project_id integer NOT NULL,
-    user_id integer NOT NULL,
-    role character varying(50) NOT NULL
+    project_id INT REFERENCES projects(id) ON DELETE CASCADE NOT NULL,
+    user_id INT REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+    role VARCHAR(50) NOT NULL,
+    PRIMARY KEY (project_id, user_id)
 );
 
---Checked
-CREATE TYPE task_priority AS ENUM (
-    'low',
-    'medium',
-    'high'
-);
-
---Checked
-CREATE TYPE task_status AS ENUM (
-    'backlog',
-    'todo',
-    'in_progress',
-    'testing',
-    'review',
-    'blocked',
-    'done'
-);
-
---Checked
 CREATE TABLE tasks (
     id SERIAL PRIMARY KEY,
     title VARCHAR NOT NULL,
-    description TEXT,                 
+    description TEXT,
     status task_status NOT NULL DEFAULT 'backlog',
-    priority task_priority,          
+    priority task_priority,
     sprint INT,
     start_date DATE,
     end_date DATE,
-    time_estimation INT,              
+    time_estimation INT,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
     project_id INT REFERENCES projects(id) ON DELETE CASCADE NOT NULL
-    );
+);
 
---Checked
-CREATE FUNCTION update_updated_at_column() 
-RETURNS trigger AS $$
-BEGIN
-   NEW.updated_at = NOW();
-   RETURN NEW;
-END;
-$$ language 'plpgsql';
-
---Checked
-CREATE TRIGGER update_tasks_updated_at 
-BEFORE UPDATE ON tasks 
-FOR EACH ROW 
-EXECUTE FUNCTION update_updated_at_column();
-
---Checked
-CREATE task_assignees (
+CREATE TABLE task_assignees (
     task_id INT REFERENCES tasks(id) ON DELETE CASCADE,
     user_id INT REFERENCES users(id) ON DELETE CASCADE,
     PRIMARY KEY (task_id, user_id)
@@ -83,32 +74,29 @@ CREATE task_assignees (
 
 CREATE TABLE categories (
     id SERIAL PRIMARY KEY,
-    name VARCHAR NOT NULL UNIQUE 
-    project_id INT REFERENCES projects(id) ON DELETE CASCADE NOT NULL
+    name VARCHAR NOT NULL,
+    project_id INT REFERENCES projects(id) ON DELETE CASCADE NOT NULL,
+    UNIQUE (project_id, name)
 );
 
---Checked
 CREATE TABLE task_categories (
     task_id INT REFERENCES tasks(id) ON DELETE CASCADE,
     category_id INT REFERENCES categories(id) ON DELETE CASCADE,
     PRIMARY KEY (task_id, category_id)
 );
 
---Checked
 CREATE TABLE task_dependencies (
-    task_id INTEGER REFERENCES tasks(id) ON DELETE CASCADE,
-    depends_on_task_id INTEGER REFERENCES tasks(id) ON DELETE CASCADE,
+    task_id INT REFERENCES tasks(id) ON DELETE CASCADE,
+    depends_on_task_id INT REFERENCES tasks(id) ON DELETE CASCADE,
     PRIMARY KEY (task_id, depends_on_task_id),
     CHECK (task_id <> depends_on_task_id)
 );
 
-CREATE TYPE note_type_enum AS ENUM ('meeting', 'retrospective', 'personal', 'task-related', 'documentation');
-
 CREATE TABLE notes (
     id SERIAL PRIMARY KEY,
     project_id INT REFERENCES projects(id) ON DELETE CASCADE NOT NULL,
-    title VARCHAR(255) NOT NULL,
-    note_type note_type_enum NOT NULL,
+    title VARCHAR(255) NOT NULL DEFAULT '',
+    note_type note_type_enum NOT NULL DEFAULT 'meeting',
     sprint_num INT,
     creator_id INT REFERENCES users(id) NOT NULL,
     leader_id INT REFERENCES users(id),
@@ -121,16 +109,23 @@ CREATE TABLE notes (
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
-CREATE OR REPLACE FUNCTION set_updated_at()
+-- Keep updated_at current on every UPDATE
+
+CREATE FUNCTION set_updated_at()
 RETURNS TRIGGER AS $$
 BEGIN
-  NEW.updated_at = NOW();
-  RETURN NEW;
+    NEW.updated_at = NOW();
+    RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER trg_set_projects_updated_at
 BEFORE UPDATE ON projects
+FOR EACH ROW
+EXECUTE FUNCTION set_updated_at();
+
+CREATE TRIGGER trg_set_tasks_updated_at
+BEFORE UPDATE ON tasks
 FOR EACH ROW
 EXECUTE FUNCTION set_updated_at();
 

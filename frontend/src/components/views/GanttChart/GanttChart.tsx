@@ -1,34 +1,34 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Task as GantTask, ViewMode as GantView, Gantt } from "gantt-task-react";
+import { type Task as GantTask, ViewMode as GantView, Gantt } from "gantt-task-react";
 import { ViewSwitcher } from "./view-switcher";
-import { getStartEndDateForProject, initTasks } from "./helper";
-import { mapTasksToGanttTasks } from "./gantMapper"
-import { SprintSwitcher } from "./SprintSwitcher"; 
-import { Task as AppTask } from "../../../types/task"
-import { ViewMode as AppView} from "../../../types/view"
+import { mapTasksToGanttTasks, ganttDatesToTaskDates } from "./gantMapper"
+import { SprintSwitcher } from "./SprintSwitcher";
+import { makeTaskTooltip } from "./TaskTooltip";
+import { type Task as AppTask } from "../../../types/task"
+import { type ViewMode as AppView} from "../../../types/view"
 import "gantt-task-react/dist/index.css";
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+// How far (px) the mouse can move during a click before it counts as a drag
+const DRAG_THRESHOLD = 4;
 
 type GanChartProps = {
   projectID: string
   tasks: AppTask[]
   view: AppView
-  curSprint: curSprint
+  curSprint: number
+  setTasks: React.Dispatch<React.SetStateAction<AppTask[]>>
 }
   
-function GanttChart ({ tasks, projectID, view, curSprint }: GanChartProps) {
+function GanttChart ({ tasks, projectID, view, curSprint, setTasks }: GanChartProps) {
   const [gantView, setView] = useState<GantView>(GantView.Day);
-  const [viewMode, setViewMode] = useState<GantView>(GantView.Week);
-  const [localTasks, setLocalTasks] = useState<AppTask[]>(tasks ?? []);
   const [showTaskList, setShowTaskList] = useState(false);
   const [activeSprint, setActiveSprint] = useState<number | "all">(curSprint);
+  const [error, setError] = useState("");
+  const mouseDownAt = useRef<{ x: number; y: number } | null>(null);
+  const wasDragged = useRef(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (tasks && tasks.length > 0) {
-      setLocalTasks(tasks);
-    }
-  }, [tasks]);
 
   let columnWidth = 65;
   if (gantView === GantView.Year) {
@@ -39,61 +39,61 @@ function GanttChart ({ tasks, projectID, view, curSprint }: GanChartProps) {
     columnWidth = 250;
   }
 
-  const handleTaskChange = (task: GantTask) => {
-    console.log("On date change Id:" + task.id);
-    let newTasks = localTasks.map(t => (t.id === task.id ? task : t));
-    if (task.project) {
-      const [start, end] = getStartEndDateForProject(newTasks, task.project);
-      const project = newTasks[newTasks.findIndex(t => t.id === task.project)];
-      if (
-        project.start.getTime() !== start.getTime() ||
-        project.end.getTime() !== end.getTime()
-      ) {
-        const changedProject = { ...project, start, end };
-        newTasks = newTasks.map(t =>
-          t.id === task.project ? changedProject : t
-        );
-      }
+  // Dragging or resizing a bar saves the new dates. Returning false tells the
+  // chart to snap the bar back.
+  const handleDateChange = async (ganttTask: GantTask) => {
+    const id = Number(ganttTask.id);
+    const previous = tasks.find(t => t.id === id);
+    if (!previous) return false;
+
+    const dates = ganttDatesToTaskDates(ganttTask.start, ganttTask.end);
+    setTasks(prev => prev.map(t => (t.id === id ? { ...t, ...dates } : t)));
+
+    try {
+      const res = await fetch(`http://127.0.0.1:5000/api/tasks/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dates),
+      });
+      if (!res.ok) throw new Error(`Save failed: ${res.status}`);
+      setError("");
+      return true;
+    } catch (err) {
+      console.error(err);
+      setTasks(prev => prev.map(t => (t.id === id ? previous : t)));
+      setError(`Couldn't save new dates for "${previous.title}". Please try again.`);
+      return false;
     }
-    setLocalTasks(newTasks);
   };
 
-  const handleTaskDelete = (task: Task) => {
-    const conf = window.confirm("Are you sure about " + task.name + " ?");
-    if (conf) {
-      setLocalTasks(localTasks.filter(t => t.id !== task.id));
-    }
-    return conf;
+  // The browser fires a click when a drag ends on the same bar, so remember
+  // whether the mouse moved between press and release.
+  const handleMouseDown = (e: React.MouseEvent) => {
+    mouseDownAt.current = { x: e.clientX, y: e.clientY };
   };
 
-  const handleProgressChange = async (task: Task) => {
-    setLocalTasks(localTasks.map(t => (t.id === task.id ? task : t)));
-    console.log("On progress change Id:" + task.id);
+  const handleMouseUp = (e: React.MouseEvent) => {
+    const start = mouseDownAt.current;
+    wasDragged.current = !!start &&
+      Math.hypot(e.clientX - start.x, e.clientY - start.y) > DRAG_THRESHOLD;
   };
 
-  const handleDblClick = (task: Task) => {
-    alert("On Double Click event Id:" + task.id);
-  };
-
-  const handleClick = (task: AppTask) => {
+  const handleClick = (task: GantTask) => {
+    if (wasDragged.current) return;
     navigate(`/projects/${projectID}/tasks/${task.id}?view=${view}`);
   };
 
-  const handleSelect = (task: Task, isSelected: boolean) => {
-    console.log(task.name + " has " + (isSelected ? "selected" : "unselected"));
-  };
-
-  const handleExpanderClick = (task: Task) => {
-    setLocalTasks(localTasks.map(t => (t.id === task.id ? task : t)));
-    console.log("On expander click Id:" + task.id);
-  };
-  
   const ganttTasks = useMemo(() => {
     return mapTasksToGanttTasks(
-      localTasks ?? [],
+      tasks,
       activeSprint === "all" ? undefined : activeSprint
     );
-  }, [localTasks, activeSprint]);
+  }, [tasks, activeSprint]);
+
+  const TooltipContent = useMemo(
+    () => makeTaskTooltip(new Map(tasks.map(t => [String(t.id), t]))),
+    [tasks]
+  );
 
 
   return (
@@ -109,18 +109,18 @@ function GanttChart ({ tasks, projectID, view, curSprint }: GanChartProps) {
           onChange={setActiveSprint}
         />
       </div>
-    
+
+      {error && <p className="error">{error}</p>}
+
       {ganttTasks.length > 0 ? (
+      <div onMouseDownCapture={handleMouseDown} onMouseUpCapture={handleMouseUp}>
       <Gantt
         tasks={ganttTasks}
         viewMode={gantView}
-        onDateChange={handleTaskChange}
-        onDelete={handleTaskDelete}
-        onProgressChange={handleProgressChange}
-        onDoubleClick={handleDblClick}
         onClick={handleClick}
-        onSelect={handleSelect}
-        onExpanderClick={handleExpanderClick}
+        onDateChange={handleDateChange}
+        TooltipContent={TooltipContent}
+        timeStep={DAY_MS}
         listCellWidth={showTaskList ? "155px" : ""}
         columnWidth={columnWidth}
         barCornerRadius={6}
@@ -130,6 +130,7 @@ function GanttChart ({ tasks, projectID, view, curSprint }: GanChartProps) {
         arrowColor="#6366f1"
         arrowIndent={20}
       />
+      </div>
       ) : (
         <p>No tasks to display</p>
       )}

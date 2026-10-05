@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { Task } from "../../../types/task"
+import { type Task } from "../../../types/task"
 import { formatString } from "../../../utils/format";
-import { ViewMode } from "../../../types/view";
+import { type ViewMode } from "../../../types/view";
 import "./Kanban.css"
 
 type CardProps = {

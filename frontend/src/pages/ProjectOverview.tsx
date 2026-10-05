@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
-import { Project } from '../types/project';
-import { Task, TaskStatus } from '../types/task';
+import { type Project } from '../types/project';
+import { type Task, type TaskStatus } from '../types/task';
 import { useAuth } from '../context/AuthContext';
 import './ProjectOverview.css';
 

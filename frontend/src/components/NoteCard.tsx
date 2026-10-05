@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Note } from '../types/note';
+import { type Note } from '../types/note';
 import './NoteCard.css';
 
 interface NoteCardProps {

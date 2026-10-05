@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Masonry from "react-masonry-css";
 import ProjectCard from "../components/ProjectCard";
-import { Project } from "../types/project";
+import { type Project } from "../types/project";
 import { useAuth } from "../context/AuthContext";
 import "./MyProjects.css";
 

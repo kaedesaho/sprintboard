@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate, useSearchParams } from "react-router-dom";
-import TaskForm, { TaskFormData } from "../components/TaskForm";
+import { useParams, useNavigate } from "react-router-dom";
+import TaskForm, { type TaskFormData } from "../components/TaskForm";
 import ConfirmModal from "../components/ui/ConfirmModal";
-import { Task } from "../types/task"
-import { parseEnum } from "../utils/parseEnum";
-import { ViewMode, allowedViews } from "../types/view";
+import { type Task } from "../types/task"
 
 type TaskProps = {
     mode: 'create' | 'edit';
@@ -15,9 +13,6 @@ const TaskPage = ( { mode }: TaskProps) => {
 
     const projectID = params.projectID;
     const taskID = params.taskID;
-
-    const [searchParams] = useSearchParams();
-    const view: ViewMode = parseEnum(searchParams.get("view"), allowedViews, "list");
 
     const isEditMode = mode === "edit";
     const [allTasks, setAllTasks] = useState<Task[]>([]);
@@ -34,7 +29,6 @@ const TaskPage = ( { mode }: TaskProps) => {
             setLoading(true);
 
             try {
-                let task = null;
                 if (isEditMode && taskID) {
                     const taskRes = await fetch(`http://127.0.0.1:5000/api/tasks/${taskID}`);
                     if (!taskRes.ok) throw new Error(`Task fetch failed: ${taskRes.status}`);
@@ -139,7 +133,6 @@ const TaskPage = ( { mode }: TaskProps) => {
             onCategoryCreated={(newCat) => setCategories(prev => [...prev, newCat])}
             onSubmit={handleSubmit}
             onDelete={isEditMode ? handleDeleteRequest : undefined}
-            view={view}
             />
 
             {showDeleteModal && (

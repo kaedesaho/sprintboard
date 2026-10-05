@@ -4,8 +4,8 @@ import BackLog from "./views/Backlog"
 import KanbanBoard from "./views/Kanban/KanbanBoard"
 import TaskList from "./views/TaskList"
 import GanttChart from "./views/GanttChart/GanttChart"
-import { Task } from "../types/task"
-import { ViewMode, allowedViews } from "../types/view"
+import { type Task } from "../types/task"
+import { type ViewMode, allowedViews } from "../types/view"
 import { parseEnum } from "../utils/parseEnum";
 import "./ProjectTasks.css"
 
@@ -67,16 +67,19 @@ function ProjectTasks({ projectID, curSprint }: Props) {
                 </Link>
             </div>
 
-            {view === "gantt" && (
+            {loading && <p>Loading tasks...</p>}
+
+            {!loading && view === "gantt" && (
                 <GanttChart
                 tasks={tasks}
                 projectID={projectID}
                 view={view}
                 curSprint={curSprint}
+                setTasks={setTasks}
                 />
             )}
 
-            {view === "kanban" && (
+            {!loading && view === "kanban" && (
                 <KanbanBoard
                 projectID={projectID}
                 tasks={tasks.filter((t => t.sprint == curSprint))}
@@ -85,7 +88,7 @@ function ProjectTasks({ projectID, curSprint }: Props) {
                 />
             )}
 
-            {view === "list" && (
+            {!loading && view === "list" && (
                 <TaskList
                 projectID={projectID}
                 tasks={tasks}
@@ -94,7 +97,7 @@ function ProjectTasks({ projectID, curSprint }: Props) {
                 />
             )}
 
-            {view === "backlog" && (
+            {!loading && view === "backlog" && (
                 <BackLog
                 projectID={projectID}
                 tasks={tasks.filter(t => t.status == "backlog")}

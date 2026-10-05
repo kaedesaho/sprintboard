@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { Project } from "../types/project";
+import { type Project } from "../types/project";
 
 interface ProjectContextValue {
     project: Project | null;

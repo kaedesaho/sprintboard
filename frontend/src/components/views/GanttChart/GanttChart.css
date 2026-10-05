@@ -94,3 +94,26 @@
 input:checked + .Slider:before {
     transform: translateX(18px);
 }
+
+/* Hover tooltip */
+.gantt-tooltip {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    max-width: 260px;
+}
+
+.gantt-tooltip-title {
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.gantt-tooltip-badges {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+}

@@ -1,4 +1,4 @@
-import { Task, TaskStatus } from "../../../types/task"
+import { type Task, type TaskStatus } from "../../../types/task"
 
 
 type ColumnId = "todo" | "in_progress" | "review" | "done";

@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { Task, TaskStatus, TaskPriority } from "../types/task"
+import { type Task, type TaskStatus, type TaskPriority } from "../types/task"
 import { useParams, useNavigate } from "react-router-dom";
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
-import { ViewMode } from "../types/view";
 import { AiOutlineClose } from "react-icons/ai";
 import "./TaskForm.css"
 
@@ -32,7 +31,6 @@ interface TaskFormProps {
     onSubmit: (data: TaskFormData) => void;
     onDelete?: () => void;
     onCategoryCreated?: (newCat: { id: number; name: string }) => void;
-    view: ViewMode
 }
 
 const darkSelectStyles = {
@@ -62,7 +60,7 @@ const darkSelectStyles = {
 };
 
 const TaskForm = ({
-    mode, initialValues, tasks, categories, users, onSubmit, onDelete, onCategoryCreated, view
+    mode, initialValues, tasks, categories, users, onSubmit, onDelete, onCategoryCreated
 }:TaskFormProps) => {
     const navigate = useNavigate();
     const { projectID } = useParams(); 

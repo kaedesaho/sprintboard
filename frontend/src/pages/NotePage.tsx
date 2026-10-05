@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Note, NoteType } from "../types/note";
+import { type Note, type NoteType } from "../types/note";
 import { useAuth } from "../context/AuthContext";
 import ConfirmModal from "../components/ui/ConfirmModal";
 import "./NotePage.css";
